@@ -4,6 +4,7 @@
 #include <time.h>
 #include <windows.h>
 
+#define SIZE 9
 
 typedef enum
 {
@@ -31,91 +32,222 @@ short setTextColor(const ConsoleColors foreground)
     return 1;
 }
 
+char Board[SIZE][SIZE * 2 - 1];
+int player1_row = 0, player1_col = 8, player2_row = 8, player2_col = 8;
+char player1_sign = '#';
+char player2_sign = '$';
+
+int turn1 = 1;
+int turn2 = 0;
+
+int numWalls = 0;
+
+void initializeBoard() {
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE * 2 - 1; j++) {
+            if (j % 2 != 0) Board[i][j] = ':';
+            else Board[i][j] = ' ';
+        }
+    }
+}
+
+void printBoard() {
+	setTextColor(BLUE);
+    printf("--------------------\n");
+
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE * 2 - 1; j++) {
+			setTextColor(BLUE);
+            if (j == 0) printf("| ");
+			setTextColor(YELLOW);
+            printf("%c", Board[i][j]);
+        }
+		setTextColor(BLUE);
+        printf(" |\n");
+    }
+
+	setTextColor(BLUE);
+    printf("--------------------\n");
+}
+
+// formol divar gozashtan --> 2n - 1
+
+int letMove(int x, int y)
+{
+	// Shart vogod divar monde!
+	if (x != player1_row && x != player2_row && x >= 0 && x <= 8 && y != player1_col && y != player2_col && y >= 0 && y <= 8)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+}
+
+void move(int player, int x, int y, int way) // x, y ke alan hast
+{
+	// Player 1
+	if (player = 1 && way == 1 && letMove(x, y) == 1) // UP
+	{
+		Board[player1_row][player1_col] = ' ';
+		player1_row--;
+		Board[player1_row][player1_col] = player1_sign;
+	}
+	else if (player = 1 && way == 2 && letMove(x, y) == 1) // Down
+	{
+		Board[player1_row][player1_col] = ' ';
+		player1_row++;
+		Board[player1_row][player1_col] = player1_sign;
+	}
+	else if (player = 1 && way == 3 && letMove(x, y) == 1) // Right
+	{
+		Board[player1_row][player1_col] = ' ';
+		player1_col++;
+		Board[player1_row][player1_col] = player1_sign;
+	}
+	else if (player = 1 && way == 4 && letMove(x, y) == 1) // Left
+	{
+		Board[player1_row][player1_col] = ' ';
+		player1_col--;
+		Board[player1_row][player1_col] = player1_sign;
+	}
+	// Player 2
+	else if (player = 2 && way == 1 && letMove(x, y) == 1) // UP
+	{
+		Board[player2_row][player2_col] = ' ';
+		player2_row--;
+		Board[player2_row][player2_col] = player2_sign;
+	}
+	else if (player = 2 && way == 2 && letMove(x, y) == 1) // Down
+	{
+		Board[player2_row][player2_col] = ' ';
+		player2_row++;
+		Board[player2_row][player2_col] = player2_sign;
+	}
+	else if (player = 2 && way == 3 && letMove(x, y) == 1) // Right
+	{
+		Board[player2_row][player2_col] = ' ';
+		player2_col++;
+		Board[player2_row][player2_col] = player2_sign;
+	}
+	else if (player = 2 && way == 4 && letMove(x, y) == 1) // Left
+	{
+		Board[player2_row][player2_col] = ' ';
+		player2_col--;
+		Board[player2_row][player2_col] = player2_sign;
+	}
+}
+
+void wall(int player, int x, int y)
+{
+
+}
+
+int checkWinner()
+{
+	if (player1_row == SIZE - 1) return 1;
+	else if (player2_row == 0) return 2;
+	else return 0;
+}
+
+void play(int turn)
+{
+	int move_or_wall;
+	int way;
+	int xwall, ywall;
+
+	if (turn == 1)
+	{
+		printf("Player1 turn...");
+		printf("Move(1) or Wall(2): ");
+		scanf("%d", &move_or_wall);
+
+		if (move_or_wall == 1)
+		{
+			printf("UP(1) | DOWN(2) | RIGHT(3) | LEFT(4) : ");
+			scanf("%d", &way);
+
+			move(1, player1_row, player1_col, way);
+		}
+		else
+		{
+			printf("Enter the coordinate of the wall (x, y): ");
+			scanf("%d%d", &xwall, &ywall);
+
+			xwall = (xwall * 2) - 1;
+			ywall = (ywall * 2) - 1;
+
+			wall(1, xwall, ywall);
+		}
+		turn1 = 0;
+		turn2 = 1;
+	}
+	else
+	{
+		printf("Player2 turn...");
+		printf("Move(1) or Wall(2): ");
+		scanf("%d", &move_or_wall);
+
+		if (move_or_wall == 1)
+		{
+			printf("UP(1) | DOWN(2) | RIGHT(3) | LEFT(4) : ");
+			scanf("%d", &way);
+
+			move(2, player2_row, player2_col, way);
+		}
+		else
+		{
+			printf("Enter the coordinate of the wall (x, y): ");
+			scanf("%d%d", &xwall, &ywall);
+
+			xwall = (xwall * 2) - 1;
+			ywall = (ywall * 2) - 1;
+			
+			wall(2, xwall, ywall);
+		}
+		turn1 = 1;
+		turn2 = 0;
+	}
+
+	if (checkWinner() == 1)
+	{
+		setTextColor(PURPLE);
+		printf("Player1 won!\n");
+	}
+	else if (checkWinner() == 2)
+	{
+		setTextColor(PURPLE);
+		printf("Player2 won!\n");
+	}
+
+
+	printBoard();
+}
+
 int main()
 {
-	int n;
+	char playerName[20];
+
 	setTextColor(LIGHT_GREEN);
-	printf("abad board ra vared konod:");
-	scanf("%d",&n);
-	
-	char board[n][n];
-	
-	int player1_row,player1_col,player2_row,player2_col;
-	setTextColor(BLUE);
-	printf("mogheiyat player aval(row and column) :");
-	scanf("%d %d",&player1_row,&player1_col);
-	setTextColor(BLUE);
-	printf("mogheiyat player dovom (row and column) :");
-	scanf("%d %d",&player2_row,&player2_col);
-	
-	player1_row -= 1;
-    player1_col -= 1;//BARAYE INKE ARRAYE AZ 0 SHORO MISHE
-    player2_row -= 1;
-    player2_col -= 1;
-    
-	int i,j;
-	for (i=0;i<n;i++)
-	{
-		for (j=0;j<n;j++)
-		{
-			board[i][j] = ' ';
-		}
-	}
-	board[player1_row][player1_col] = '$'; // marker of player1
-	board[player2_row][player2_col] = '#'; // marker of player2
-	
-	int numWalls;
-	setTextColor(RED);
-	printf("tedad divar ha ro vared kon :");
+
+	printf("Welcome to the Quoridor!\n");
+	printf("Please enter your name: ");
+	scanf("%s", &playerName);
+
+	printf("How many walls does each player have? ");
 	scanf("%d",&numWalls);
+
+	initializeBoard();
+
+	Board[player1_row][player1_col] = player1_sign;
+	Board[player2_row][player2_col] = player2_sign;
+
+	printBoard();
+
+	while (checkWinner() == 0)
+		play(1);
 	
-	for (i=0;i<numWalls;i++)
-	{
-		int rowW,colW;
-		char halat;// vertical(amoodi) or horizontal(ofoghi)
-		setTextColor(LIGHT_RED);
-        printf("mogheiat divar va halat(row, column, and orientation 'H' or 'V'): ");
-        scanf("%d %d %c",&rowW,&colW,&halat);
-        rowW -= 1;
-        colW -= 1; //array az 0 shoro mishe
-        board[rowW][colW] = 'X' ;// marker of wall
-        if (halat == 'H')
-        {
-        	board[rowW][colW+1] = 'X';
-		}
-		if (halat == 'V')
-		{
-			board[rowW+1][colW] = 'X';
-		}
-	}
-	printf("\n \a");
-	
-	for (i=0;i<n;i++)
-	{
-		for(j=0;j<n+1;j++)
-		{
-			setTextColor(LIGHT_WHITE);
-			printf("- ");
-		}
-		printf("\n");
-		for (j=0;j<n;j++)
-		{
-			setTextColor(LIGHT_PURPLE);
-			printf("|");
-			setTextColor( LIGHT_AQUA );
-			printf("%c",board[i][j]);
-			//printf("|%c", board[i][j]);
-		}
-		setTextColor(LIGHT_PURPLE);
-		printf("|\n");
-	}
-	for (i=0;i<n+1;i++)
-	{
-		setTextColor(LIGHT_WHITE);
-		printf("- ");
-	}
-	printf("\n");
-	
-	
+	setTextColor(WHITE);
 	return 0;
 }
