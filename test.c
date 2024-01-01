@@ -1,10 +1,3 @@
-/*
-1-
-منطق دیوارهای افقی و مانع بودن دیوارها پیاده سازی نشده
-2-
-دش ها به درستی چاپ نمیشوند
-*/
-
 #include <stdio.h>
 #include <string.h>
 #include <windows.h>
@@ -12,7 +5,10 @@
 
 #define SIZE 17
 
-typedef enum
+#include "faze1.c"
+extern char Board[SIZE][SIZE];
+
+/*typedef enum
 {
     BLACK = 0, BLUE = 1, GREEN = 2,
     AQUA = 3, RED = 4, PURPLE = 5,
@@ -21,14 +17,15 @@ typedef enum
     LIGHT_AQUA = 11, LIGHT_RED = 12, 
     LIGHT_PURPLE = 13, LIGHT_YELLOW = 14,
     LIGHT_WHITE = 15
-} ConsoleColors;
+} ConsoleColors;*/
 
 typedef HANDLE Handle;
 typedef CONSOLE_SCREEN_BUFFER_INFO BufferInfo;
 typedef WORD Word;
 
-short setTextColor(const ConsoleColors foreground)
-{
+short setTextColor(const ConsoleColors foreground);
+
+/*short setTextColor(const ConsoleColors foreground) {
     Handle consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
     BufferInfo bufferInfo;
     if(!GetConsoleScreenBufferInfo(consoleHandle, &bufferInfo))
@@ -36,15 +33,14 @@ short setTextColor(const ConsoleColors foreground)
     Word color = (bufferInfo.wAttributes & 0xF0) + (foreground & 0x0F);
     SetConsoleTextAttribute(consoleHandle, color);
     return 1;
-}
+}*/
 
-char Board[SIZE][SIZE];
 int player1_row = 0, player1_col = 8, player2_row = SIZE - 1, player2_col = 8;
 char player1_sign = '#', player2_sign = '$';
 int wall1 = 10, wall2 = 10;
 int direction;
 
-void initializeBoard() {
+void initializeBoard(); /*{
     int count = 0;
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
@@ -53,15 +49,15 @@ void initializeBoard() {
             else
             {
                 Board[i][j] = '-';
-                /*if (count % 2 == 0) Board[i][j] = '-';
-                else Board[i][j] = ' ';
-                count++;*/
+                //if (count % 2 == 0) Board[i][j] = '-';
+                //else Board[i][j] = ' ';
+                //count++;
             }
         }
     }
-}
+}*/
 
-void printBoard() {
+void printBoard(); /*{
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
             setTextColor(PURPLE);
@@ -72,7 +68,7 @@ void printBoard() {
         setTextColor(PURPLE);
         printf("|\n");
     }
-}
+}*/
 
 int isValidMove(int way, int x, int y) {
     if (way == 1 && x >= 0 && x < SIZE && y >= 0 && y < SIZE && Board[x - 1][y] != '=') return 1;
@@ -132,12 +128,17 @@ void play(int turn) {
 
     if (turn == 1) {
         setTextColor(GREEN);
+
         printf("Player 1 turn --> Move(1) or Wall(2): ");
         scanf("%d", &choice);
+
         if (choice == 1) {
             setTextColor(RED);
+
             //printf("UP(1) | DOWN(2) | RIGHT(3) | LEFT(4): ");
             //scanf("%d", &direction);
+
+            printf("Play with Arrows keys!\n");
             if (getch() == 224) {
                 switch(getch()) {
                     case 72:
@@ -157,21 +158,32 @@ void play(int turn) {
             move(1, player1_row, player1_col, direction);
         } else {
             setTextColor(BLUE);
+
             printf("Enter the manner (V/H): ");
             scanf(" %c", &manner);
+
+            manner = toupper(manner);
+
             setTextColor(LIGHT_AQUA);
+
             printf("Enter the coordinates (x, y): ");
             scanf("%d %d", &x, &y);
+
             buildWall(1, x, y, manner);
         }
     } else {
         setTextColor(GREEN);
+
         printf("Player 2 turn --> Move(1) or Wall(2): ");
         scanf("%d", &choice);
+
         if (choice == 1) {
             setTextColor(RED);
+
             //printf("UP(1) | DOWN(2) | RIGHT(3) | LEFT(4): ");
             //scanf("%d", &direction);
+
+            printf("Play with Arrows keys!\n");
             if (getch() == 224) {
                 switch(getch()) {
                     case 72:
@@ -192,11 +204,17 @@ void play(int turn) {
             move(2, player2_row, player2_col, direction);
         } else {
             setTextColor(BLUE);
+
             printf("Enter the manner (V/H): ");
             scanf(" %c", &manner);
+
+            manner = toupper(manner);
+
             setTextColor(LIGHT_AQUA);
+
             printf("Enter the coordinates (x, y): ");
             scanf("%d %d", &x, &y);
+
             buildWall(2, x, y, manner);
         }
     }
@@ -209,6 +227,7 @@ int main() {
     printf("Welcome to Quoridor!\n");
 
     initializeBoard();
+    
     Board[player1_row][player1_col] = player1_sign;
     Board[player2_row][player2_col] = player2_sign;
 
