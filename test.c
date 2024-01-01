@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <windows.h>
+#include <conio.h>
 
 #define SIZE 17
 
@@ -41,6 +42,7 @@ char Board[SIZE][SIZE];
 int player1_row = 0, player1_col = 8, player2_row = SIZE - 1, player2_col = 8;
 char player1_sign = '#', player2_sign = '$';
 int wall1 = 10, wall2 = 10;
+int direction;
 
 void initializeBoard() {
     int count = 0;
@@ -83,7 +85,7 @@ int isValidMove(int way, int x, int y) {
 void move(int player, int x, int y, int direction) {
     if (player == 1 && isValidMove(direction, x, y)) {
         Board[player1_row][player1_col] = ' ';
-        if (direction == 1 && isValidMove(direction, x - 2, y)) player1_row -= 2;
+        if (direction == 1 && isValidMove(direction, x - 2, y))player1_row -= 2;
         else if (direction == 2 && isValidMove(direction, x + 2, y)) player1_row += 2;
         else if (direction == 3 && isValidMove(direction, x, y + 2)) player1_col += 2;
         else if (direction == 4 && isValidMove(direction, x, y - 2)) player1_col -= 2;
@@ -125,7 +127,7 @@ int checkWinner() {
 }
 
 void play(int turn) {
-    int choice, direction, x, y;
+    int choice, x, y;
     char manner;
 
     if (turn == 1) {
@@ -134,8 +136,24 @@ void play(int turn) {
         scanf("%d", &choice);
         if (choice == 1) {
             setTextColor(RED);
-            printf("UP(1) | DOWN(2) | RIGHT(3) | LEFT(4): ");
-            scanf("%d", &direction);
+            //printf("UP(1) | DOWN(2) | RIGHT(3) | LEFT(4): ");
+            //scanf("%d", &direction);
+            if (getch() == 224) {
+                switch(getch()) {
+                    case 72:
+                        direction = 1;
+                        break;
+                    case 80:
+                        direction = 2;
+                        break;
+                    case 77:
+                        direction = 3;
+                        break;
+                    case 75:
+                        direction = 4;
+                        break;
+                }
+            }
             move(1, player1_row, player1_col, direction);
         } else {
             setTextColor(BLUE);
@@ -152,8 +170,25 @@ void play(int turn) {
         scanf("%d", &choice);
         if (choice == 1) {
             setTextColor(RED);
-            printf("UP(1) | DOWN(2) | RIGHT(3) | LEFT(4): ");
-            scanf("%d", &direction);
+            //printf("UP(1) | DOWN(2) | RIGHT(3) | LEFT(4): ");
+            //scanf("%d", &direction);
+            if (getch() == 224) {
+                switch(getch()) {
+                    case 72:
+                        direction = 1;
+                        break;
+                    case 80:
+                        direction = 2;
+                        break;
+                    case 77:
+                        direction = 3;
+                        break;
+                    case 75:
+                        direction = 4;
+                        break;
+                }
+            }
+             
             move(2, player2_row, player2_col, direction);
         } else {
             setTextColor(BLUE);
