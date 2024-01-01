@@ -41,7 +41,6 @@ char Board[SIZE][SIZE];
 int player1_row = 0, player1_col = 8, player2_row = SIZE - 1, player2_col = 8;
 char player1_sign = '#', player2_sign = '$';
 int wall1 = 10, wall2 = 10;
-int turn1 = 1, turn2 = 0;
 
 void initializeBoard() {
     int count = 0;
@@ -51,9 +50,10 @@ void initializeBoard() {
             else if (i % 2 == 0 && j % 2 != 0) Board[i][j] = ':';
             else
             {
-                if (count % 2 == 0) Board[i][j] = '-';
+                Board[i][j] = '-';
+                /*if (count % 2 == 0) Board[i][j] = '-';
                 else Board[i][j] = ' ';
-                count++;
+                count++;*/
             }
         }
     }
@@ -72,45 +72,49 @@ void printBoard() {
     }
 }
 
-int isValidMove(int x, int y) {
-    return (x >= 0 && x < SIZE && y >= 0 && y < SIZE);
+int isValidMove(int way, int x, int y) {
+    if (way == 1 && x >= 0 && x < SIZE && y >= 0 && y < SIZE && Board[x - 1][y] != '=') return 1;
+    else if (way == 2 && x >= 0 && x < SIZE && y >= 0 && y < SIZE && Board[x + 1][y] != '=') return 1;
+    else if (way == 3 && x >= 0 && x < SIZE && y >= 0 && y < SIZE && Board[x][y + 1] != '|') return 1;
+    else if (way == 4 && x >= 0 && x < SIZE && y >= 0 && y < SIZE && Board[x][y - 1] != '|') return 1;
+    else return 0;
 }
 
 void move(int player, int x, int y, int direction) {
-    if (player == 1 && isValidMove(x, y)) {
+    if (player == 1 && isValidMove(direction, x, y)) {
         Board[player1_row][player1_col] = ' ';
-        if (direction == 1 && isValidMove(x - 2, y)) player1_row -= 2;
-        else if (direction == 2 && isValidMove(x + 2, y)) player1_row += 2;
-        else if (direction == 3 && isValidMove(x, y + 2)) player1_col += 2;
-        else if (direction == 4 && isValidMove(x, y - 2)) player1_col -= 2;
+        if (direction == 1 && isValidMove(direction, x - 2, y)) player1_row -= 2;
+        else if (direction == 2 && isValidMove(direction, x + 2, y)) player1_row += 2;
+        else if (direction == 3 && isValidMove(direction, x, y + 2)) player1_col += 2;
+        else if (direction == 4 && isValidMove(direction, x, y - 2)) player1_col -= 2;
         Board[player1_row][player1_col] = player1_sign;
-        turn1 = 0;
-        turn2 = 1;
-    } else if (player == 2 && isValidMove(x, y)) {
+    } else if (player == 2 && isValidMove(direction, x, y)) {
         Board[player2_row][player2_col] = ' ';
-        if (direction == 1 && isValidMove(x - 2, y)) player2_row -= 2;
-        else if (direction == 2 && isValidMove(x + 2, y)) player2_row += 2;
-        else if (direction == 3 && isValidMove(x, y + 2)) player2_col += 2;
-        else if (direction == 4 && isValidMove(x, y - 2)) player2_col -= 2;
+        if (direction == 1 && isValidMove(direction, x - 2, y)) player2_row -= 2;
+        else if (direction == 2 && isValidMove(direction, x + 2, y)) player2_row += 2;
+        else if (direction == 3 && isValidMove(direction, x, y + 2)) player2_col += 2;
+        else if (direction == 4 && isValidMove(direction, x, y - 2)) player2_col -= 2;
         Board[player2_row][player2_col] = player2_sign;
-        turn1 = 1;
-        turn2 = 0;
     }
 }
 
 void buildWall(int player, int x, int y, char manner) {
     if (player == 1 && wall1 > 0) {
         if (manner == 'V') Board[x * 2 - 2][2 * y - 1] = '|';
-        else Board[2 * x - 1][y] = '=';
+        else
+        {
+            Board[2 * x - 1][2 * y - 2] = '=';
+            Board[2 * x - 1][2 * y] = '=';
+        }
         wall1--;
-        turn1 = 0;
-        turn2 = 1;
     } else if (player == 2 && wall2 > 0) {
         if (manner == 'V') Board[x * 2 - 2][2 * y - 1] = '|';
-        else Board[2 * x - 1][y] = '=';
+        else
+        {
+            Board[2 * x - 1][2 * y - 2] = '=';
+            Board[2 * x - 1][2 * y] = '=';
+        }
         wall2--;
-        turn1 = 1;
-        turn2 = 0;
     }
 }
 
