@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <math.h>
 #include <conio.h>
 #include <windows.h>
 
@@ -28,6 +29,17 @@ typedef HANDLE Handle;
 typedef CONSOLE_SCREEN_BUFFER_INFO BufferInfo;
 typedef WORD Word;
 
+static short setTextColor(const ConsoleColors foreground)
+{
+    Handle consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+    BufferInfo bufferInfo;
+    if(!GetConsoleScreenBufferInfo(consoleHandle, &bufferInfo))
+        return 0;
+    Word color = (bufferInfo.wAttributes & 0xF0) + (foreground & 0x0F);
+    SetConsoleTextAttribute(consoleHandle, color);
+    return 1;
+}
+
 typedef struct
 {
     int size;
@@ -41,7 +53,7 @@ typedef struct
     int count_wall2;
 } gameInfo;
 
-void initializeGame(gameInfo *game);
+void initializeGame(gameInfo *game, int userSize);
 
 void printBoard(gameInfo *game);
 
@@ -63,4 +75,3 @@ void playGame(gameInfo *game, int player);
 
 
 #endif
-

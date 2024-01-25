@@ -12,14 +12,14 @@ int main()
     printf("Welcome to Qouridor!\n");
 
     setTextColor(LIGHT_GREEN);
-    int size;
+    int userSize, realSize;
     printf("Please enter the size of board: ");
-    scanf("%d", &size); // user size
+    scanf("%d", &userSize); // user size
 
-    size = (2 * size) - 1; // real size
-    game.size = size;
+    realSize = (2 * userSize) - 1; // real size
+    game.size = realSize;
 
-    board = (char**)malloc(size * sizeof(char*));
+    board = (char**)malloc(realSize * sizeof(char*));
 
     if (board == NULL)
     {
@@ -27,14 +27,14 @@ int main()
         return 1;
     }
 
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < realSize; i++)
     {
-        board[i] = (char*)malloc(size * sizeof(char));
+        board[i] = (char*)malloc(realSize * sizeof(char));
     }
 
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < realSize; i++)
     {
-        for (int j = 0; j < size; j++)
+        for (int j = 0; j < realSize; j++)
         {
             if (i % 2 == 0 && j % 2 == 0) board[i][j] = ' ';
             else if (i % 2 != 0 && j % 2 == 0) board[i][j] = '-';
@@ -52,6 +52,7 @@ int main()
     printf("Player1 name: ");
     scanf("%s", game.player1Name);
     getchar();
+
     printf("Player1 sign: ");
     scanf("%c", &game.player1Sign);
     getchar();
@@ -60,6 +61,7 @@ int main()
     printf("Player2 name: ");
     scanf("%s", game.player2Name);
     getchar();
+
     printf("Player2 sign: ");
     scanf("%c", &game.player2Sign);
     getchar();
@@ -72,7 +74,8 @@ int main()
     setTextColor(WHITE);
     printf("-----------------\n\n");
 
-    initializeGame(&game);
+    initializeGame(&game, userSize);
+
     printBoard(&game);
 
     while (1)
@@ -108,7 +111,7 @@ int main()
         }
     }
 
-    for (int i = 0; i < size; i++)
+    for (int i = 0; i < realSize; i++)
     {
         free(board[i]);
     }
