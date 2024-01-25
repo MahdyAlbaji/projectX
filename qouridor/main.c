@@ -44,7 +44,7 @@ int main()
     }
 
     setTextColor(AQUA);
-    printf("Please enter the information of players: \n");
+    printf("Please enter the information of players\n");
     setTextColor(WHITE);
     printf("-----------------\n");
 
