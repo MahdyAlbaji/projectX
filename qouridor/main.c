@@ -67,9 +67,16 @@ int main()
     getchar();
 
     setTextColor(GRAY);
-    printf("Count of walls: ");
-    scanf("%d", &game.count_wall1);
-    game.count_wall2 = game.count_wall1;
+
+    int wall;
+    do
+    {
+        printf("Count of walls [0-15]: ");
+        scanf("%d", &wall);
+    } while (wall < 0 || wall > 15);
+
+    game.count_wall1 = wall;
+    game.count_wall2 = wall;
 
     setTextColor(WHITE);
     printf("-----------------\n\n");

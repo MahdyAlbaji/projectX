@@ -110,31 +110,45 @@ void playGame(gameInfo *game, int player)
         printf("Move (1) / Wall (2): ");
         scanf("%d", &move_wall);
         getchar();
-    } while (move_wall != 1 && move_wall != 2);
 
-    if (move_wall == 1)
-    {
-        do
+        if (move_wall == 1)
         {
-            printf("Direction: ");
-            scanf("%d", &direction);
-            getchar();
-        } while (!isValidMove(game, direction, player));
-    }
-    else if (move_wall == 2)
-    {
-        do
+            do
+            {
+                printf("Direction (You can use arrow keys in your keyboard for moving!)");
+                if (getch() == 224) {
+                switch(getch()) {
+                    case 72:
+                        direction = 1;
+                        break;
+                    case 77:
+                        direction = 2;
+                        break;
+                    case 80:
+                        direction = 3;
+                        break;
+                    case 75:
+                        direction = 4;
+                        break;
+                }
+            }
+            } while (!isValidMove(game, direction, player));
+        }
+        else if (move_wall == 2)
         {
-            printf("Vertical (v) / Horizontal (h): ");
-            scanf("%c", &ver_hor);
-            getchar();
-            printf("Enter (x,y): ");
-            scanf("%d %d", &x, &y);
-            getchar();
-            x = (2 * x) - 1;
-            y = (2 * y) - 1;
-        } while (!isValidWall(game, x, y, ver_hor) || !pseudoDFS(game, x, y, ver_hor, player));
-    }
+            do
+            {
+                printf("Vertical (v) / Horizontal (h): ");
+                scanf("%c", &ver_hor);
+                getchar();
+                printf("Enter (x,y): ");
+                scanf("%d %d", &x, &y);
+                getchar();
+                x = (2 * x) - 1;
+                y = (2 * y) - 1;
+            } while (!isValidWall(game, x, y, ver_hor) || !pseudoDFS(game, x, y, ver_hor, player));
+        }
+    } while (move_wall != 1 && move_wall != 2);
     
     if (move_wall == 1)
     {

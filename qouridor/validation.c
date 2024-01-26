@@ -110,6 +110,17 @@ int pseudoDFS(gameInfo *game, int x, int y, char model, int player)
         if (board[x1][y1 - 1] == '|') player1State++;
     }
 
+    if (model == 'h') 
+    {
+        board[x][y + 1] = ' ';
+        board[x][y - 1] = ' ';
+    }
+    else
+    {
+        board[x + 1][y] = ' ';
+        board[x - 1][y] = ' ';
+    }
+
     if (player1State < 4) return 1;
     else return 0;
 
@@ -175,6 +186,17 @@ int pseudoDFS(gameInfo *game, int x, int y, char model, int player)
         if (board[x2 - 1][y2] == '=') player2State++;
         if (board[x2][y2+ 1] == '|') player2State++;
         if (board[x2][y2- 1] == '|') player2State++;
+    }
+
+    if (model == 'h') 
+    {
+        board[x][y + 1] = ' ';
+        board[x][y - 1] = ' ';
+    }
+    else
+    {
+        board[x + 1][y] = ' ';
+        board[x - 1][y] = ' ';
     }
 
     if (player2State < 4) return 1;

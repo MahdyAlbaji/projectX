@@ -4,6 +4,7 @@
 
 extern char **board;
 
+
 void initializeGame(gameInfo *game, int userSize)
 {
     int realSize = game->size;
