@@ -59,7 +59,7 @@ void printBoard(gameInfo *game);
 
 int isValidMove(gameInfo *game, int direction, int player);
 
-int pseudoDFS(gameInfo *game, int player);
+int pseudoDFS(gameInfo *game, int x, int y, char model, int player);
 
 int isValidWall(gameInfo *game, int x, int y, char model);
 

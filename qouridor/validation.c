@@ -30,149 +30,155 @@ int isValidMove(gameInfo *game, int direction, int player)
     return 0;
 }
 
-int pseudoDFS(gameInfo *game, int player)
+int pseudoDFS(gameInfo *game, int x, int y, char model, int player)
 {
     int size = game->size;
     int player1State = 0;
     int player2State = 0;
 
-    if (player == 2)
+    if (model == 'h') 
     {
-        int x = game->position1[0];
-        int y = game->position1[1];
-
-        if (x == 0 && y == 0)
-        {
-            player1State += 2;
-            if (board[x][y + 1] == '|') player1State++;
-            if (board[x + 1][y] == '=') player1State++;
-        }
-        else if (x == 0 && y == size - 1)
-        {
-            player1State += 2;
-            if (board[x][y - 1] == '|') player1State++;
-            if (board[x + 1][y] == '=') player1State++;
-        }
-        else if (x == size - 1 && y == 0)
-        {
-            player1State += 2;
-            if (board[x - 1][y] == '=') player1State++;
-            if (board[x][y + 1] == '|') player1State++;
-        }
-        else if (x == size - 1 && y == size - 1)
-        {
-            player1State += 2;
-            if (board[x - 1][y] == '=') player1State++;
-            if (board[x][y - 1] == '|') player1State++;
-        }
-        else if (x == 0)
-        {
-            player1State++;
-            if (board[x + 1][y] == '=') player1State++;
-            if (board[x][y + 1] == '|') player1State++;
-            if (board[x][y - 1] == '|') player1State++;
-        }
-        else if (x == size - 1)
-        {
-            player1State++;
-            if (board[x - 1][y] == '=') player1State++;
-            if (board[x][y - 1] == '|') player1State++;
-            if (board[x][y + 1] == '|') player1State++;
-        }
-        else if (y == 0)
-        {
-            player1State++;
-            if (board[x][y + 1] == '|') player1State++;
-            if (board[x + 1][y] == '=') player1State++;
-            if (board[x - 1][y] == '=') player1State++;
-        }
-        else if (y == size - 1)
-        {
-            player1State++;
-            if (board[x][y - 1] == '|') player1State++;
-            if (board[x + 1][y] == '=') player1State++;
-            if (board[x - 1][y] == '=') player1State++;
-        }
-        else
-        {
-            if (board[x + 1][y] == '=') player1State++;
-            if (board[x - 1][y] == '=') player1State++;
-            if (board[x][y + 1] == '|') player1State++;
-            if (board[x][y - 1] == '|') player1State++;
-        }
-
-        if (player1State < 3) return 1;
-        else return 0;
+        board[x][y + 1] = '=';
+        board[x][y - 1] = '=';
     }
     else
     {
-        int x = game->position2[0];
-        int y = game->position2[1];
-
-        if (x == 0 && y == 0)
-        {
-            player2State += 2;
-            if (board[x][y + 1] == '|') player2State++;
-            if (board[x + 1][y] == '=') player2State++;
-        }
-        else if (x == 0 && y == size - 1)
-        {
-            player2State += 2;
-            if (board[x][y - 1] == '|') player2State++;
-            if (board[x + 1][y] == '=') player2State++;
-        }
-        else if (x == size - 1 && y == 0)
-        {
-            player2State += 2;
-            if (board[x - 1][y] == '=') player2State++;
-            if (board[x][y + 1] == '|') player2State++;
-        }
-        else if (x == size - 1 && y == size - 1)
-        {
-            player2State += 2;
-            if (board[x - 1][y] == '=') player2State++;
-            if (board[x][y - 1] == '|') player2State++;
-        }
-        else if (x == 0)
-        {
-            player2State++;
-            if (board[x + 1][y] == '=') player2State++;
-            if (board[x][y + 1] == '|') player2State++;
-            if (board[x][y - 1] == '|') player2State++;
-        }
-        else if (x == size - 1)
-        {
-            player2State++;
-            if (board[x - 1][y] == '=') player2State++;
-            if (board[x][y - 1] == '|') player2State++;
-            if (board[x][y + 1] == '|') player2State++;
-        }
-        else if (y == 0)
-        {
-            player2State++;
-            if (board[x][y + 1] == '|') player2State++;
-            if (board[x + 1][y] == '=') player2State++;
-            if (board[x - 1][y] == '=') player2State++;
-        }
-        else if (y == size - 1)
-        {
-            player2State++;
-            if (board[x][y - 1] == '|') player2State++;
-            if (board[x + 1][y] == '=') player2State++;
-            if (board[x - 1][y] == '=') player2State++;
-        }
-        else
-        {
-            if (board[x + 1][y] == '=') player2State++;
-            if (board[x - 1][y] == '=') player2State++;
-            if (board[x][y + 1] == '|') player2State++;
-            if (board[x][y - 1] == '|') player2State++;
-        }
-
-        if (player2State < 3) return 1;
-        else return 0;
+        board[x + 1][y] = '|';
+        board[x - 1][y] = '|';
     }
 
+    int x1 = game->position1[0];
+    int y1 = game->position1[1];
+
+    if (x1 == 0 && y1 == 0)
+    {
+        player1State += 2;
+        if (board[x1][y1 + 1] == '|') player1State++;
+        if (board[x1 + 1][y1] == '=') player1State++;
+    }
+    else if (x1 == 0 && y1 == size - 1)
+    {
+        player1State += 2;
+        if (board[x1][y1 - 1] == '|') player1State++;
+        if (board[x1 + 1][y1] == '=') player1State++;
+    }
+    else if (x1 == size - 1 && y1 == 0)
+    {
+        player1State += 2;
+        if (board[x1 - 1][y1] == '=') player1State++;
+        if (board[x1][y1 + 1] == '|') player1State++;
+    }
+    else if (x1 == size - 1 && y1 == size - 1)
+    {
+        player1State += 2;
+        if (board[x1 - 1][y1] == '=') player1State++;
+        if (board[x1][y1 - 1] == '|') player1State++;
+    }
+    else if (x1 == 0)
+    {
+        player1State++;
+        if (board[x1 + 1][y1] == '=') player1State++;
+        if (board[x1][y1 + 1] == '|') player1State++;
+        if (board[x1][y1 - 1] == '|') player1State++;
+    }
+    else if (x1 == size - 1)
+    {
+        player1State++;
+        if (board[x1 - 1][y1] == '=') player1State++;
+        if (board[x1][y1 - 1] == '|') player1State++;
+        if (board[x1][y1 + 1] == '|') player1State++;
+    }
+    else if (y1 == 0)
+    {
+        player1State++;
+        if (board[x1][y1 + 1] == '|') player1State++;
+        if (board[x1 + 1][y1] == '=') player1State++;
+        if (board[x1 - 1][y1] == '=') player1State++;
+    }
+    else if (y1 == size - 1)
+    {
+        player1State++;
+        if (board[x1][y1 - 1] == '|') player1State++;
+        if (board[x1 + 1][y1] == '=') player1State++;
+        if (board[x1 - 1][y1] == '=') player1State++;
+    }
+    else
+    {
+        if (board[x1 + 1][y1] == '=') player1State++;
+        if (board[x1 - 1][y1] == '=') player1State++;
+        if (board[x1][y1 + 1] == '|') player1State++;
+        if (board[x1][y1 - 1] == '|') player1State++;
+    }
+
+    if (player1State < 4) return 1;
+    else return 0;
+
+
+    int x2 = game->position2[0];
+    int y2= game->position2[1];
+
+    if (x2 == 0 && y2 == 0)
+    {
+        player2State += 2;
+        if (board[x2][y2+ 1] == '|') player2State++;
+        if (board[x2 + 1][y2] == '=') player2State++;
+    }
+    else if (x2 == 0 && y2 == size - 1)
+    {
+        player2State += 2;
+        if (board[x2][y2- 1] == '|') player2State++;
+        if (board[x2 + 1][y2] == '=') player2State++;
+    }
+    else if (x2 == size - 1 && y2 == 0)
+    {
+        player2State += 2;
+        if (board[x2 - 1][y2] == '=') player2State++;
+        if (board[x2][y2+ 1] == '|') player2State++;
+    }
+    else if (x2 == size - 1 && y2 == size - 1)
+    {
+        player2State += 2;
+        if (board[x2 - 1][y2] == '=') player2State++;
+        if (board[x2][y2- 1] == '|') player2State++;
+    }
+    else if (x2 == 0)
+    {
+        player2State++;
+        if (board[x2 + 1][y2] == '=') player2State++;
+        if (board[x2][y2+ 1] == '|') player2State++;
+        if (board[x2][y2- 1] == '|') player2State++;
+    }
+    else if (x2 == size - 1)
+    {
+        player2State++;
+        if (board[x2 - 1][y2] == '=') player2State++;
+        if (board[x2][y2- 1] == '|') player2State++;
+        if (board[x2][y2+ 1] == '|') player2State++;
+    }
+    else if (y2 == 0)
+    {
+        player2State++;
+        if (board[x2][y2+ 1] == '|') player2State++;
+        if (board[x2 + 1][y2] == '=') player2State++;
+        if (board[x2 - 1][y2] == '=') player2State++;
+    }
+    else if (y2 == size - 1)
+    {
+        player2State++;
+        if (board[x2][y2- 1] == '|') player2State++;
+        if (board[x2 + 1][y2] == '=') player2State++;
+        if (board[x2 - 1][y2] == '=') player2State++;
+    }
+    else
+    {
+        if (board[x2 + 1][y2] == '=') player2State++;
+        if (board[x2 - 1][y2] == '=') player2State++;
+        if (board[x2][y2+ 1] == '|') player2State++;
+        if (board[x2][y2- 1] == '|') player2State++;
+    }
+
+    if (player2State < 4) return 1;
+    else return 0;
 }
 
 int isValidWall(gameInfo *game, int x, int y, char model)

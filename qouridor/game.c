@@ -133,7 +133,7 @@ void playGame(gameInfo *game, int player)
             getchar();
             x = (2 * x) - 1;
             y = (2 * y) - 1;
-        } while (!isValidWall(game, x, y, ver_hor) || !pseudoDFS(game, player));
+        } while (!isValidWall(game, x, y, ver_hor) || !pseudoDFS(game, x, y, ver_hor, player));
     }
     
     if (move_wall == 1)
