@@ -43,6 +43,11 @@ int main()
         }
     }
 
+    int computer_or_human;
+    printf("Human (1)/ Computer (2): ");
+    scanf("%d", &computer_or_human);
+    getchar();
+
     setTextColor(AQUA);
     printf("Please enter the information of players\n");
     setTextColor(WHITE);
@@ -56,19 +61,31 @@ int main()
     printf("Player1 sign: ");
     scanf("%c", &game.player1Sign);
     getchar();
-    
-    setTextColor(YELLOW);
-    printf("Player2 name: ");
-    scanf("%s", game.player2Name);
-    getchar();
 
-    printf("Player2 sign: ");
-    scanf("%c", &game.player2Sign);
-    getchar();
+    setTextColor(YELLOW);
+    do
+    {
+        if (computer_or_human == 1)
+        {
+            printf("Player2 name: ");
+            scanf("%s", game.player2Name);
+            getchar();
+
+            printf("Player2 sign: ");
+            scanf("%c", &game.player2Sign);
+            getchar();
+        }
+        else if (computer_or_human == 2)
+        {
+            strcpy(game.player2Name , "Computer");
+            game.player2Sign = 'C';
+
+        }
+    } while (computer_or_human != 1 && computer_or_human != 2);
 
     setTextColor(GRAY);
-
     int wall;
+
     do
     {
         printf("Count of walls [0-15]: ");
@@ -89,7 +106,9 @@ int main()
     {
         setTextColor(PURPLE);
         printf("\n%s turn...\n", &game.player1Name);
-        playGame(&game, 1);
+
+        playGameHuman(&game, 1);
+        sleep(0.8);
 
         printBoard(&game);
         printf("\n");
@@ -104,7 +123,15 @@ int main()
 
         setTextColor(LIGHT_GREEN);
         printf("\n%s turn...\n", &game.player2Name);
-        playGame(&game, 2);
+
+        if (computer_or_human == 1)
+        {
+            playGameHuman(&game, 2);
+        }
+        else
+        {
+            playGameComputer(&game, 2);
+        }
 
         printBoard(&game);
         printf("\n");

@@ -5,6 +5,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 #include <time.h>
 #include <math.h>
 #include <conio.h>
@@ -71,7 +73,13 @@ int getMove(gameInfo *game, int direction, int player);
 
 int getWall(gameInfo *game, int x, int y, char model);
 
-void playGame(gameInfo *game, int player);
+// Play computer;
+
+int generateRandomNumber(int low, int high);
+
+void playGameHuman(gameInfo *game, int player);
+
+void playGameComputer(gameInfo *game, int player);
 
 
 #endif

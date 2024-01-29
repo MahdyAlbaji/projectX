@@ -1,4 +1,4 @@
-// game.c
+// gameHuman.c
 
 #include "game.h"
 
@@ -98,7 +98,7 @@ int getWall(gameInfo *game, int x, int y, char model)
     }
 }
 
-void playGame(gameInfo *game, int player)
+void playGameHuman(gameInfo *game, int player)
 {
     int move_wall;
     int direction;
@@ -115,7 +115,7 @@ void playGame(gameInfo *game, int player)
         {
             do
             {
-                printf("Direction (You can use arrow keys in your keyboard for moving!)");
+                printf("Direction (You can use arrow keys in your keyboard for moving!)\n");
                 if (getch() == 224) {
                 switch(getch()) {
                     case 72:
@@ -160,5 +160,4 @@ void playGame(gameInfo *game, int player)
         else game->count_wall2--;
         getWall(game, x, y, ver_hor);
     }
-
 }

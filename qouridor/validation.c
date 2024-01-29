@@ -30,6 +30,19 @@ int isValidMove(gameInfo *game, int direction, int player)
     return 0;
 }
 
+int isValidWall(gameInfo *game, int x, int y, char model)
+{
+    if (model == 'v')
+    {
+        return (board[x - 1][y] == ':' && board[x + 1][y] == ':' && x < (2 * game->size) && x > 0 && y < (2 * game->size) && y > 0);
+    }
+    else if (model == 'h')
+    {
+        return (board[x][y - 1] == '-' && board[x][y + 1] == '-' && x < (2 * game->size) && x > 0 && y < (2 * game->size) && y > 0);
+    }
+    return 0;
+}
+
 int pseudoDFS(gameInfo *game, int x, int y, char model, int player)
 {
     int size = game->size;
@@ -201,17 +214,4 @@ int pseudoDFS(gameInfo *game, int x, int y, char model, int player)
 
     if (player2State < 4) return 1;
     else return 0;
-}
-
-int isValidWall(gameInfo *game, int x, int y, char model)
-{
-    if (model == 'v')
-    {
-        return (board[x - 1][y] == ':' && board[x + 1][y] == ':' && x < (2 * game->size) && x > 0 && y < (2 * game->size) && y > 0);
-    }
-    else if (model == 'h')
-    {
-        return (board[x][y - 1] == '-' && board[x][y + 1] == '-' && x < (2 * game->size) && x > 0 && y < (2 * game->size) && y > 0);
-    }
-    return 0;
 }
