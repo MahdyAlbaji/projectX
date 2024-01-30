@@ -6,7 +6,6 @@ extern char **board;
 
 int generateRandomNumber(int low, int high)
 {
-    srand(time(NULL));
     
     int lower = low;
     int upper = high;
@@ -40,8 +39,8 @@ void playGameComputer(gameInfo *game, int player)
     else // wall
     {
         char model;
-        int state = generateRandomNumber(1, 10);
-        if (state % 2 == 0) model = 'h';
+        int state = generateRandomNumber(1, 2);
+        if (state == 1) model = 'h';
         else model = 'v';
 
         int x = game->position1[0] - 1;

@@ -8,11 +8,14 @@ gameInfo game;
 
 int main()
 {
+    srand(time(NULL));
+
     setTextColor(LIGHT_RED);
     printf("Welcome to Qouridor!\n");
 
-    setTextColor(LIGHT_GREEN);
     int userSize, realSize;
+    
+    setTextColor(LIGHT_GREEN);
     printf("Please enter the size of board: ");
     scanf("%d", &userSize); // user size
 
@@ -43,9 +46,9 @@ int main()
         }
     }
 
-    int computer_or_human;
+    int playerType;
     printf("Human (1)/ Computer (2): ");
-    scanf("%d", &computer_or_human);
+    scanf("%d", &playerType);
     getchar();
 
     setTextColor(AQUA);
@@ -65,7 +68,7 @@ int main()
     setTextColor(YELLOW);
     do
     {
-        if (computer_or_human == 1)
+        if (playerType == 1)
         {
             printf("Player2 name: ");
             scanf("%s", game.player2Name);
@@ -75,22 +78,22 @@ int main()
             scanf("%c", &game.player2Sign);
             getchar();
         }
-        else if (computer_or_human == 2)
+        else if (playerType == 2)
         {
             strcpy(game.player2Name , "Computer");
             game.player2Sign = 'C';
 
         }
-    } while (computer_or_human != 1 && computer_or_human != 2);
+    } while (playerType != 1 && playerType != 2);
 
     setTextColor(GRAY);
     int wall;
 
     do
     {
-        printf("Count of walls [0-15]: ");
+        printf("Count of walls [0-20]: ");
         scanf("%d", &wall);
-    } while (wall < 0 || wall > 15);
+    } while (wall < 0 || wall > 20);
 
     game.count_wall1 = wall;
     game.count_wall2 = wall;
@@ -108,23 +111,16 @@ int main()
         printf("\n%s turn...\n", &game.player1Name);
 
         playGameHuman(&game, 1);
-        sleep(0.8);
 
         printBoard(&game);
         printf("\n");
 
-        if (checkWinner(&game) == 1)
-        {
-            setTextColor(PURPLE);
-            printf("%s is the winner!\n", &game.player1Name);
-            setTextColor(WHITE);
-            break;
-        }
+        checkWinner(&game);
 
         setTextColor(LIGHT_GREEN);
         printf("\n%s turn...\n", &game.player2Name);
 
-        if (computer_or_human == 1)
+        if (playerType == 1)
         {
             playGameHuman(&game, 2);
         }
@@ -136,21 +132,8 @@ int main()
         printBoard(&game);
         printf("\n");
 
-        if (checkWinner(&game) == 2)
-        {
-            setTextColor(GREEN);
-            printf("%s is the winner!\n", &game.player2Name);
-            setTextColor(WHITE);
-            break;
-        }
+        checkWinner(&game);
     }
-
-    for (int i = 0; i < realSize; i++)
-    {
-        free(board[i]);
-    }
-
-    free(board);
 
     return 0;
 }

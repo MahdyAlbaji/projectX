@@ -102,3 +102,45 @@ void printBoard(gameInfo *game)
     }
     setTextColor(WHITE);
 }
+
+void changePosition(gameInfo *game, int player, char sign)
+{
+    if (player == 1) board[game->position1[0]][game->position1[1]] = sign;
+    else board[game->position2[0]][game->position2[1]] = sign;
+}
+
+int checkWinner(gameInfo *game)
+{
+    int size = game->size;
+
+    if (game->position1[0] == 0)
+    {
+        setTextColor(PURPLE);
+        printf("%s is the winner!\n", game->player1Name);
+        setTextColor(WHITE);
+
+        for (int i = 0; i < size; i++)
+        {
+            free(board[i]);
+        }
+
+        free(board);
+
+        exit(0);
+    }
+    else if (game->position2[0] == game->size - 1)
+    {
+        setTextColor(GREEN);
+        printf("%s is the winner!\n", game->player2Name);
+        setTextColor(WHITE);
+
+        for (int i = 0; i < size; i++)
+        {
+            free(board[i]);
+        }
+
+        free(board);
+        
+        exit(0);
+    }
+}
