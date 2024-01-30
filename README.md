@@ -1,4 +1,4 @@
-# project X 8-)
+# project X
 -----
 
 ## Don't forget that teamwork is important!
