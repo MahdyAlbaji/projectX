@@ -181,13 +181,19 @@ int getWall(gameInfo *game, int x, int y, char model)
 {
     if (model == 'v')
     {
-        board[x - 1][y] = '|';
-        board[x + 1][y] = '|';
+        //if (board[x][y + 1] != '=' && board[x][y - 1] != '=')
+        
+            board[x - 1][y] = '|';
+            board[x + 1][y] = '|';
+        
     }
     else
     {
-        board[x][y - 1] = '=';
-        board[x][y + 1] = '=';
+        //if(board[x + 1][y] != '|' && board[x + 1][y] != '|')
+        
+            board[x][y - 1] = '=';
+            board[x][y + 1] = '=';
+        
     }
 }
 

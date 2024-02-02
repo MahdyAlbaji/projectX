@@ -36,11 +36,17 @@ int isValidWall(gameInfo *game, int x, int y, char model)
 {
     if (model == 'v')
     {
-        return (board[x - 1][y] == ':' && board[x + 1][y] == ':' && x < (2 * game->size) && x > 0 && y < (2 * game->size) && y > 0);
+        if (board[x][y + 1] != '=' || board[x][y - 1] != '=')
+        {
+            return (board[x - 1][y] == ':' && board[x + 1][y] == ':' && x < (2 * game->size) && x > 0 && y < (2 * game->size) && y > 0);
+        }
     }
     else if (model == 'h')
     {
-        return (board[x][y - 1] == '-' && board[x][y + 1] == '-' && x < (2 * game->size) && x > 0 && y < (2 * game->size) && y > 0);
+        if (board[x - 1][y] != '|' || board[x + 1][y] != '|')
+        {
+            return (board[x][y - 1] == '-' && board[x][y + 1] == '-' && x < (2 * game->size) && x > 0 && y < (2 * game->size) && y > 0);
+        }
     }
     return 0;
 }
@@ -53,13 +59,21 @@ int pseudoDFS(gameInfo *game, int x, int y, char model, int player)
 
     if (model == 'h') 
     {
-        board[x][y + 1] = '=';
-        board[x][y - 1] = '=';
+        //if (board[x + 1][y] != '|' && board[x + 1][y] != '|')
+        
+            board[x][y + 1] = '=';
+            board[x][y - 1] = '=';
+        
+       
     }
     else
     {
-        board[x + 1][y] = '|';
-        board[x - 1][y] = '|';
+       // if (board[x][y + 1] != '=' && board[x][y - 1])
+        
+            board[x + 1][y] = '|';
+            board[x - 1][y] = '|';
+        
+        
     }
 
     int x1 = game->position1[0];
