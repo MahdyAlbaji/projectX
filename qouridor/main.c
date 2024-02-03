@@ -100,90 +100,53 @@ int main()
 
     setTextColor(WHITE);
     printf("-----------------\n\n");
+    int type;
+    printf("Choose the type of game (classic(1) or new(2)(with bonus and spells)) : \n");
+    scanf("%d",&type);
+    printf("-----------------\n\n");
 
     initializeGame(&game, userSize);
 
     printBoard(&game);
-
-    while (1)
+    if (type == 1)
     {
-        int prize = rand() % 2 + 1; // prize == 1 good && prize == 2 bad
-        setTextColor(PURPLE);
-        printf("\n%s turn...\n", &game.player1Name);
-        if (prize == 1)
+        while (1)
         {
-            printf("You won an award\n");
-            int x = rand() % 5;
-            if (x == 0) 
+            setTextColor(PURPLE);
+            printf("\n%s turn...\n", &game.player1Name);
+
+            playGameHuman(&game, 1);
+
+            printBoard(&game);
+            printf("\n");
+
+            checkWinner(&game);
+
+            setTextColor(LIGHT_GREEN);
+            printf("\n%s turn...\n", &game.player2Name);
+
+            if (playerType == 1)
             {
-                printf("Added 2 walls \n");
-                game.count_wall1 += 2;
-                playGameHuman(&game, 1);
+                playGameHuman(&game, 2);
             }
-            else if (x == 1)
+            else
             {
-                printf("Added 3 walls \n");
-                game.count_wall1 += 3;
-                playGameHuman(&game, 1);
+                playGameComputer(&game, 2);
             }
-            else if (x == 2)
-            {
-                printf("Added 5 walls \n");
-                game.count_wall1 += 5;
-                playGameHuman(&game, 1);
-            }
-            else if (x == 3)
-            {
-                printf("Your opponent lost 1 walls \n");
-                game.count_wall2 -= 1;
-                playGameHuman(&game, 1);
-            }
-            else if (x == 4)
-            {
-                printf("Your opponent lost 2 walls \n");
-                game.count_wall2 -= 2;
-                playGameHuman(&game, 1);
-            }
+
+            printBoard(&game);
+            printf("\n");
+
+            checkWinner(&game);
         }
-        else if (prize == 2)
+    }
+    else if (type == 2)
+    {
+        while (1)
         {
-            printf("You are enchanted \n");
-            int x = rand() % 4;
-            if (x == 0)
-            {
-                printf("You lost 2 walls \n");
-                game.count_wall1 -= 2;
-                playGameHuman(&game, 1);
-            }
-            else if (x == 1)
-            {
-                printf("You lost 3 walls \n");
-                game.count_wall1 -= 3;
-                playGameHuman(&game, 1);
-            }
-            else if (x == 2)
-            {
-                printf("You lost 5 walls \n");
-                game.count_wall1 -= 5;
-                playGameHuman(&game, 1);
-            }
-            else if(x == 3)
-            {
-                printf("Your turn was missed \n");
-                playGameHuman(&game, 3);
-            }
-        }
-        //playGameHuman(&game, 1);
-
-        printBoard(&game);
-        printf("\n");
-
-        checkWinner(&game);
-
-        setTextColor(LIGHT_GREEN);
-        printf("\n%s turn...\n", &game.player2Name);
-        if (playerType == 1)
-        {
+            int prize = rand() % 2 + 1; // prize == 1 good && prize == 2 bad
+            setTextColor(PURPLE);
+            printf("\n%s turn...\n", &game.player1Name);
             if (prize == 1)
             {
                 printf("You won an award\n");
@@ -191,32 +154,32 @@ int main()
                 if (x == 0) 
                 {
                     printf("Added 2 walls \n");
-                    game.count_wall2 += 2;
-                    playGameHuman(&game, 2);
+                    game.count_wall1 += 2;
+                    playGameHuman(&game, 1);
                 }
                 else if (x == 1)
                 {
                     printf("Added 3 walls \n");
-                    game.count_wall2 += 3;
-                    playGameHuman(&game, 2);
+                    game.count_wall1 += 3;
+                    playGameHuman(&game, 1);
                 }
                 else if (x == 2)
                 {
                     printf("Added 5 walls \n");
-                    game.count_wall2 += 5;
-                    playGameHuman(&game, 2);
+                    game.count_wall1 += 5;
+                    playGameHuman(&game, 1);
                 }
                 else if (x == 3)
                 {
                     printf("Your opponent lost 1 walls \n");
-                    game.count_wall1 -= 1;
-                    playGameHuman(&game, 2);
+                    game.count_wall2 -= 1;
+                    playGameHuman(&game, 1);
                 }
                 else if (x == 4)
                 {
                     printf("Your opponent lost 2 walls \n");
-                    game.count_wall1 -= 2;
-                    playGameHuman(&game, 2);
+                    game.count_wall2 -= 2;
+                    playGameHuman(&game, 1);
                 }
             }
             else if (prize == 2)
@@ -226,46 +189,183 @@ int main()
                 if (x == 0)
                 {
                     printf("You lost 2 walls \n");
-                    game.count_wall2 -= 2;
-                    playGameHuman(&game, 2);
+                    game.count_wall1 -= 2;
+                    playGameHuman(&game, 1);
                 }
                 else if (x == 1)
                 {
                     printf("You lost 3 walls \n");
-                    game.count_wall2 -= 3;
-                    playGameHuman(&game, 2);
+                    game.count_wall1 -= 3;
+                    playGameHuman(&game, 1);
                 }
                 else if (x == 2)
                 {
                     printf("You lost 5 walls \n");
-                    game.count_wall2 -= 5;
-                    playGameHuman(&game, 2);
+                    game.count_wall1 -= 5;
+                    playGameHuman(&game, 1);
                 }
-                else if (x == 3)
+                else if(x == 3)
                 {
                     printf("Your turn was missed \n");
                     playGameHuman(&game, 3);
                 }
             }
-        }
-        else
-        {
-            playGameComputer(&game, 2);
-        }
-        if (game.count_wall1 < 0)
-        {
-            game.count_wall1 = 0;
-        }
-        else if (game.count_wall2 < 0)
-        {
-            game.count_wall2 = 0;
-        }
-        printBoard(&game);
-        printf("\n");
+            //playGameHuman(&game, 1);
 
-        checkWinner(&game);
+            printBoard(&game);
+            printf("\n");
+
+            checkWinner(&game);
+
+            setTextColor(LIGHT_GREEN);
+            printf("\n%s turn...\n", &game.player2Name);
+            if (playerType == 1)
+            {
+                if (prize == 1)
+                {
+                    printf("You won an award\n");
+                    int x = rand() % 5;
+                    if (x == 0) 
+                    {
+                        printf("Added 2 walls \n");
+                        game.count_wall2 += 2;
+                        playGameHuman(&game, 2);
+                    }
+                    else if (x == 1)
+                    {
+                        printf("Added 3 walls \n");
+                        game.count_wall2 += 3;
+                        playGameHuman(&game, 2);
+                    }
+                    else if (x == 2)
+                    {
+                        printf("Added 5 walls \n");
+                        game.count_wall2 += 5;
+                        playGameHuman(&game, 2);
+                    }
+                    else if (x == 3)
+                    {
+                        printf("Your opponent lost 1 walls \n");
+                        game.count_wall1 -= 1;
+                        playGameHuman(&game, 2);
+                    }
+                    else if (x == 4)
+                    {
+                        printf("Your opponent lost 2 walls \n");
+                        game.count_wall1 -= 2;
+                        playGameHuman(&game, 2);
+                    }
+                }
+                else if (prize == 2)
+                {
+                    printf("You are enchanted \n");
+                    int x = rand() % 4;
+                    if (x == 0)
+                    {
+                        printf("You lost 2 walls \n");
+                        game.count_wall2 -= 2;
+                        playGameHuman(&game, 2);
+                    }
+                    else if (x == 1)
+                    {
+                        printf("You lost 3 walls \n");
+                        game.count_wall2 -= 3;
+                        playGameHuman(&game, 2);
+                    }
+                    else if (x == 2)
+                    {
+                        printf("You lost 5 walls \n");
+                        game.count_wall2 -= 5;
+                        playGameHuman(&game, 2);
+                    }
+                    else if (x == 3)
+                    {
+                        printf("Your turn was missed \n");
+                        playGameHuman(&game, 3);
+                    }
+                }
+            }
+            else
+            {
+                if (prize == 1)
+                {
+                    printf("Computer won an award\n");
+                    int x = rand() % 5;
+                    if (x == 0) 
+                    {
+                        printf("Added 2 walls to Computer \n");
+                        game.count_wall2 += 2;
+                        playGameComputer(&game, 2);
+                    }
+                    else if (x == 1)
+                    {
+                        printf("Added 3 walls to Computer \n");
+                        game.count_wall2 += 3;
+                        playGameComputer(&game, 2);
+                    }
+                    else if (x == 2)
+                    {
+                        printf("Added 5 walls to Computer \n");
+                        game.count_wall2 += 5;
+                        playGameComputer(&game, 2);
+                    }
+                    else if (x == 3)
+                    {
+                        printf("Your opponent lost 1 walls \n");
+                        game.count_wall1 -= 1;
+                        playGameComputer(&game, 2);
+                    }
+                    else if (x == 4)
+                    {
+                        printf("Your opponent lost 2 walls \n");
+                        game.count_wall1 -= 2;
+                        playGameComputer(&game, 2);
+                    }
+                }
+                else if (prize == 2)
+                {
+                    printf("Computer are enchanted \n");
+                    int x = rand() % 4;
+                    if (x == 0)
+                    {
+                        printf("Computer lost 2 walls \n");
+                        game.count_wall2 -= 2;
+                        playGameComputer(&game, 2);
+                    }
+                    else if (x == 1)
+                    {
+                        printf("Computer lost 3 walls \n");
+                        game.count_wall2 -= 3;
+                        playGameComputer(&game, 2);
+                    }
+                    else if (x == 2)
+                    {
+                        printf("Computer lost 5 walls \n");
+                        game.count_wall2 -= 5;
+                        playGameComputer(&game, 2);
+                    }
+                    else if (x == 3)
+                    {
+                        printf("Computer turn was missed \n");
+                        playGameComputer(&game, 3);
+                    }
+                }
+                //playGameComputer(&game, 2);
+            }
+            if (game.count_wall1 < 0) /// tedad wall manfi nashe
+            {
+                game.count_wall1 = 0;
+            }   
+            else if (game.count_wall2 < 0)
+            {
+                game.count_wall2 = 0;
+            }
+            printBoard(&game);
+            printf("\n");
+
+            checkWinner(&game);
+        }
     }
-
     return 0;
 }
 
