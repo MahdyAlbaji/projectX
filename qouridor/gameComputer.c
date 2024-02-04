@@ -25,19 +25,21 @@ void playGameComputer(gameInfo *game, int player)
 
     if (move_or_wall == 1) // move
     {
-        /*int direction = 3;
+        int direction = 3;
 
         if (isValidMove(game, direction, player))
         {
             getMove(game, direction, player);
-            return;
-        }*/
-        int direction;
-        do
+        }
+        else 
         {
-            direction = rand() % 4 + 1; //generateRandomNumber(1, 4);
-            if (isValidMove(game, direction, player)) getMove(game, direction, player);
-        }while (!isValidMove(game, direction, player));
+            do
+            {
+                direction = rand() % 4 + 1; //generateRandomNumber(1, 4);
+                if (isValidMove(game, direction, player)) getMove(game, direction, player);
+            }while (!isValidMove(game, direction, player));
+        }
+        
         
 
     }
@@ -48,8 +50,8 @@ void playGameComputer(gameInfo *game, int player)
         //if (state == 1) model = 'h';
         //else model = 'v';
 
-        int x; //= game->position1[0] - 1;
-        int y; //= game->position1[1];
+        int x = game->position1[0] - 1;
+        int y = game->position1[1] - 1;
 
         int size = game->size;
         size /= 2;
@@ -69,7 +71,7 @@ void playGameComputer(gameInfo *game, int player)
         }*/
             do
             {
-            	char chs[] = "hvhvhvhvhvhvhvh";
+            	char chs[] = "hvhvhvhvhvhvhvhv";
 				char s[11];
 				srand(time(0));
 				for (int i = 0; i < 10;i++)
@@ -82,6 +84,11 @@ void playGameComputer(gameInfo *game, int player)
 			} while (model != 'v' || model == 'h');
             
             //while (!isValidWall(game, x, y, model))
+            if(isValidWall(game,x,y,model))
+            {
+                getWall(game, x, y,model);
+            }
+            else
             {
                 x = rand() % size + 1;
                 y = rand() % size + 1;
