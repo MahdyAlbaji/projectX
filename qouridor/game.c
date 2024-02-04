@@ -180,26 +180,20 @@ int getMove(gameInfo *game, int direction, int player) // 1 --> UP | 2 --> RIGHT
 int getWall(gameInfo *game, int x, int y, char model)
 {
     if (model == 'v')
-    {
-        //if (board[x][y + 1] != '=' && board[x][y - 1] != '=')
-        
-            board[x - 1][y] = '|';
-            board[x + 1][y] = '|';
-        
+    {        
+        board[x - 1][y] = '|';
+        board[x + 1][y] = '|';
     }
     else
     {
-        //if(board[x + 1][y] != '|' && board[x + 1][y] != '|')
-        
-            board[x][y - 1] = '=';
-            board[x][y + 1] = '=';
-        
+        board[x][y - 1] = '=';
+        board[x][y + 1] = '=';
     }
 }
 
 void playGameHuman(gameInfo *game, int player)
 {
-    int move_wall;
+    int moveWall;
     int direction;
     char ver_hor;
     int x, y;
@@ -207,10 +201,10 @@ void playGameHuman(gameInfo *game, int player)
     do
     {
         printf("Move (1) / Wall (2): ");
-        scanf("%d", &move_wall);
+        scanf("%d", &moveWall);
         getchar();
 
-        if (move_wall == 1)
+        if (moveWall == 1)
         {
             do
             {
@@ -234,7 +228,7 @@ void playGameHuman(gameInfo *game, int player)
                 }
             } while (!isValidMove(game, direction, player));
         }
-        else if (move_wall == 2)
+        else if (moveWall == 2)
         {
             do
             {
@@ -250,17 +244,17 @@ void playGameHuman(gameInfo *game, int player)
                 y = (2 * y) - 1;
             } while (!isValidWall(game, x, y, ver_hor) || !pseudoDFS(game, x, y, ver_hor, player));
         }
-    } while (move_wall != 1 && move_wall != 2);
+    } while (moveWall != 1 && moveWall != 2);
     
-    if (move_wall == 1)
+    if (moveWall == 1)
     {
         if (getMove(game, direction, player));
         else playGameHuman(game, player);
     }
-    else
+    else if (moveWall == 2)
     {
-        if (player == 1) game->count_wall1--;
-        else game->count_wall2--;
+        if (player == 1) game->countWall1--;
+        else game->countWall2--;
         getWall(game, x, y, ver_hor);
     }
 }

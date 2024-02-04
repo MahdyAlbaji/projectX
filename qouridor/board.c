@@ -3,9 +3,11 @@
 #include "game.h"
 
 extern char **board;
+extern int player1Blocked;
+extern int player2Blocked;
 
 
-void initializeGame(gameInfo *game, int userSize)
+void initializeGame(gameInfo *game, rewardStatus *reward, int userSize)
 {
     int realSize = game->size;
 
@@ -28,6 +30,12 @@ void initializeGame(gameInfo *game, int userSize)
 
     board[game->position1[0]][game->position1[1]] = game->player1Sign;
     board[game->position2[0]][game->position2[1]] = game->player2Sign;
+
+    player1Blocked = 0;
+    player2Blocked = 0;
+
+    reward->reward11 = 0, reward->reward12 = 0, reward->reward13 = 0, reward->reward14 = 0, reward->reward15 = 0;
+    reward->reward21 = 0, reward->reward22 = 0, reward->reward23 = 0, reward->reward24 = 0, reward->reward25 = 0;
 }
 
 void printBoard(gameInfo *game)
@@ -47,11 +55,11 @@ void printBoard(gameInfo *game)
         count_space = len1 - len2;
 
         printf("%s's walls: ", game->player1Name);
-        for (int i = 0; i < game->count_wall1; i++) printf("| ");
+        for (int i = 0; i < game->countWall1; i++) printf("| ");
 
         printf("\n%s's walls: ", game->player2Name);
         for (int i = 0; i < count_space; i++) printf(" ");
-        for (int i = 0; i < game->count_wall2; i++) printf("| ");
+        for (int i = 0; i < game->countWall2; i++) printf("| ");
     }
     else
     {
@@ -59,10 +67,10 @@ void printBoard(gameInfo *game)
 
         printf("%s's walls: ", game->player1Name);
         for (int i = 0; i < count_space; i++) printf(" ");
-        for (int i = 0; i < game->count_wall1; i++) printf("| ");
+        for (int i = 0; i < game->countWall1; i++) printf("| ");
 
         printf("\n%s's walls: ", game->player2Name);
-        for (int i = 0; i < game->count_wall2; i++) printf("| ");
+        for (int i = 0; i < game->countWall2; i++) printf("| ");
     }
     
     printf("\n\n");

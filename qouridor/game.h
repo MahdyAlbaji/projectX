@@ -15,6 +15,8 @@
 #define MAX_LEN_NAME 30
 
 extern char **board;
+extern int player1Blocked;
+extern int player2Blocked;
 
 typedef enum
 {
@@ -51,11 +53,26 @@ typedef struct
     char player2Name[MAX_LEN_NAME];
     int position1[2];
     int position2[2];
-    int count_wall1;
-    int count_wall2;
+    int countWall1;
+    int countWall2;
 } gameInfo;
 
-void initializeGame(gameInfo *game, int userSize);
+typedef struct
+{
+    int reward11;
+    int reward12;
+    int reward13;
+    int reward14;
+    int reward15;
+
+    int reward21;
+    int reward22;
+    int reward23;
+    int reward24;
+    int reward25;
+} rewardStatus;
+
+void initializeGame(gameInfo *game, rewardStatus *reward, int userSize);
 
 void printBoard(gameInfo *game);
 
@@ -81,5 +98,8 @@ void playGameHuman(gameInfo *game, int player);
 
 void playGameComputer(gameInfo *game, int player);
 
+// Rewards
+
+void usingReward(gameInfo *game, rewardStatus *reward, int player);
 
 #endif

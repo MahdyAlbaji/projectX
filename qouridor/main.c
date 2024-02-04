@@ -4,6 +4,8 @@
 
 char **board;
 gameInfo game;
+rewardStatus reward;
+int player1Blocked, player2Blocked;
 
 
 int main()
@@ -95,44 +97,105 @@ int main()
         scanf("%d", &wall);
     } while (wall < 0 || wall > 20);
 
-    game.count_wall1 = wall;
-    game.count_wall2 = wall;
+    game.countWall1 = wall;
+    game.countWall2 = wall;
 
     setTextColor(WHITE);
     printf("-----------------\n\n");
 
-    initializeGame(&game, userSize);
+    initializeGame(&game, &reward, userSize);
 
-    printBoard(&game);
+    int classicModern;
+    setTextColor(BLUE);
+    printf("Classic game (1) / Modern game [Rewards, Bonus, Spell] (2): ");
+    scanf("%d", &classicModern);
 
-    while (1)
+    if (classicModern == 1)
     {
-        setTextColor(PURPLE);
-        printf("\n%s turn...\n", &game.player1Name);
-
-        playGameHuman(&game, 1);
-
         printBoard(&game);
-        printf("\n");
 
-        checkWinner(&game);
-
-        setTextColor(LIGHT_GREEN);
-        printf("\n%s turn...\n", &game.player2Name);
-
-        if (playerType == 1)
+        while (1)
         {
-            playGameHuman(&game, 2);
-        }
-        else
-        {
-            playGameComputer(&game, 2);
-        }
+            setTextColor(PURPLE);
+            printf("\n%s turn...\n", &game.player1Name);
 
+            playGameHuman(&game, 1);
+
+            printBoard(&game);
+            printf("\n");
+
+            checkWinner(&game);
+
+            setTextColor(LIGHT_GREEN);
+            printf("\n%s turn...\n", &game.player2Name);
+
+            if (playerType == 1)
+            {
+                playGameHuman(&game, 2);
+            }
+            else
+            {
+                playGameComputer(&game, 2);
+            }
+
+            printBoard(&game);
+            printf("\n");
+
+            checkWinner(&game);
+        }
+    }
+    else
+    {
+        // Modern game
         printBoard(&game);
-        printf("\n");
 
-        checkWinner(&game);
+        while (1)
+        {
+            if (player1Blocked == 0)
+            {
+                usingReward(&game, &reward, 1);
+
+                setTextColor(PURPLE);
+                printf("\n%s turn...\n", &game.player1Name);
+
+                playGameHuman(&game, 1);
+
+                printBoard(&game);
+                printf("\n");
+
+                checkWinner(&game);
+            }
+            else
+            {
+                player1Blocked--;
+            }
+
+            if (player2Blocked == 0)
+            {
+                usingReward(&game, &reward, 2);
+                
+                setTextColor(LIGHT_GREEN);
+                printf("\n%s turn...\n", &game.player2Name);
+
+                if (playerType == 1)
+                {
+                    playGameHuman(&game, 2);
+                }
+                else
+                {
+                    playGameComputer(&game, 2);
+                }
+
+                printBoard(&game);
+                printf("\n");
+
+                checkWinner(&game);
+            }
+            else 
+            {
+                player2Blocked--;
+            }
+        }
     }
 
     return 0;

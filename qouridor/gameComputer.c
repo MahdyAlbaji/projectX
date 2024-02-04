@@ -6,20 +6,16 @@ extern char **board;
 
 int generateRandomNumber(int low, int high)
 {
-    
-    int lower = low;
-    int upper = high;
-
-    int x = (rand() % (upper - lower + 1)) + lower;
+    int x = (rand() % (high - low + 1)) + low;
     
     return x;
 }
 
 void playGameComputer(gameInfo *game, int player)
 {
-    int move_or_wall = generateRandomNumber(1, 2); // 1 --> move , 2 --> wall
+    int moveWall = generateRandomNumber(1, 2); // 1 --> Move , 2 --> Wall
 
-    if (move_or_wall == 1) // move
+    if (moveWall == 1) // Move
     {
         int direction = 3;
 
