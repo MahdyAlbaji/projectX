@@ -16,9 +16,20 @@ int main()
     setTextColor(LIGHT_RED);
     printf("❤️Welcome to Qouridor!❤️\n");
 
-    int continueGame, userSize, realSize, playerType, wall , classicModern;
+    board = (char**)malloc(MAX * sizeof(char*));
 
-    FILE *saveFile = game.file;
+    if (board == NULL)
+    {
+        printf("We can't allocate this memory for your board...💔\n");
+        return 1;
+    }
+
+    for (int i = 0; i < MAX; i++)
+    {
+        board[i] = (char*)malloc(MAX * sizeof(char));
+    }
+
+    int continueGame, userSize, realSize, playerType, wall, classicModern;
     
     strcpy(game.fileName, "game.bin");
 
@@ -32,7 +43,6 @@ int main()
     {
         printf("Loading the game...\n");
         load(&game);
-        board = loadBoard(&game);
     }
     else
     {
@@ -42,19 +52,6 @@ int main()
 
         realSize = (2 * userSize) - 1; // real size
         game.size = realSize;
-
-        board = (char**)malloc((realSize + 1) * sizeof(char*));
-
-        if (board == NULL)
-        {
-            printf("We can't allocate this memory for your board...💔\n");
-            return 1;
-        }
-
-        for (int i = 0; i < realSize; i++)
-        {
-            board[i] = (char*)malloc((realSize + 1) * sizeof(char));
-        }
 
         for (int i = 0; i < realSize; i++)
         {
@@ -125,7 +122,7 @@ int main()
         scanf("%d", &classicModern);
         game.typeGame = classicModern;
 
-        printf("Well well well, %s and %s hope to enjoy.😇\n", &game.player1Name, &game.player2Name);
+        printf("Well well well, %s and %s hope to enjoy.😇\n", game.player1Name, game.player2Name);
 
         initializeGame(&game, userSize);
     }
@@ -136,8 +133,6 @@ int main()
     {
         while (1)
         {
-            //delOldData(saveFile);
-
             save(&game);
 
             setTextColor(PURPLE);
@@ -174,8 +169,6 @@ int main()
 
         while (1)
         {
-            //delOldData(saveFile);
-
             save(&game);
 
             if (player1Blocked == 0)
@@ -227,4 +220,3 @@ int main()
 
     return 0;
 }
-

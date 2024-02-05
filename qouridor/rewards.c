@@ -213,4 +213,7 @@ void usingReward(gameInfo *game, int player)
             }
         }
     }
+
+    if (game->countWall1 < 0) game->countWall1 = 0;
+    if (game->countWall2 < 0) game->countWall2 = 0;
 }

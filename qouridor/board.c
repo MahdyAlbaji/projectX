@@ -46,26 +46,26 @@ void printBoard(gameInfo *game)
     int len1 = strlen(game->player1Name);
     int len2 = strlen(game->player2Name);
 
-    int count_space;
+    int countSpaces;
     
     setTextColor(RED);
     if (len1 > len2)
     {
-        count_space = len1 - len2;
+        countSpaces = len1 - len2;
 
         printf("%s's walls: ", game->player1Name);
         for (int i = 0; i < game->countWall1; i++) printf("| ");
 
         printf("\n%s's walls: ", game->player2Name);
-        for (int i = 0; i < count_space; i++) printf(" ");
+        for (int i = 0; i < countSpaces; i++) printf(" ");
         for (int i = 0; i < game->countWall2; i++) printf("| ");
     }
     else
     {
-        count_space = len2 - len1;
+        countSpaces = len2 - len1;
 
         printf("%s's walls: ", game->player1Name);
-        for (int i = 0; i < count_space; i++) printf(" ");
+        for (int i = 0; i < countSpaces; i++) printf(" ");
         for (int i = 0; i < game->countWall1; i++) printf("| ");
 
         printf("\n%s's walls: ", game->player2Name);
@@ -126,6 +126,8 @@ int checkWinner(gameInfo *game)
         printf("Congratulations to %s who is the winner!🥳🥳🥳\n", game->player1Name);
         setTextColor(WHITE);
 
+        remove(game->fileName);
+
         for (int i = 0; i < size; i++)
         {
             free(board[i]);
@@ -141,6 +143,8 @@ int checkWinner(gameInfo *game)
         printf("Congratulations to %s who is the winner!🥳🥳🥳\n", game->player2Name);
         setTextColor(WHITE);
 
+        remove(game->fileName);
+
         for (int i = 0; i < size; i++)
         {
             free(board[i]);
@@ -152,26 +156,47 @@ int checkWinner(gameInfo *game)
     }
 }
 
+void copyBoard(gameInfo *game, char **loadBoard, int model)
+{
+    int size = game->size;
+
+    if (model == 1)
+    {
+        for (int i = 0; i < size; i++)
+        {
+            for (int j = 0; j < size; j++)
+            {
+                loadBoard[i][j] = game->bg[i][j];
+            }
+        }
+    }
+    else
+    {
+        for (int i = 0; i < size; i++)
+        {
+            for (int j = 0; j < size; j++)
+            {
+                game->bg[i][j] = loadBoard[i][j];
+            }
+        }
+    }
+}
+
 void save(gameInfo *game)
 {
     int size = game->size;
+
+    copyBoard(game, board, 2);
 
     FILE *saveFile = fopen(game->fileName, "wb");
 
     if (saveFile == NULL)
     {
-        perror("Error opening file for writing");
+        perror("opening file for writing");
         return;
     }
 
-    game->file = saveFile;
-
     fwrite(game, sizeof(gameInfo), 1, saveFile);
-    
-    for (int i = 0; i < size; i++)
-    {
-        fwrite(board[i], sizeof(char) * size, 1, saveFile);
-    }
 
     fclose(saveFile);
 }
@@ -180,60 +205,40 @@ void load(gameInfo *game)
 {
     int size = game->size;
 
-    FILE *saveFile = fopen(game->fileName, "rb");
+    FILE *loadFile = fopen(game->fileName, "rb");
 
-    if (saveFile == NULL)
+    if (loadFile == NULL)
     {
         perror("Error opening file for reading");
         return;
     }
 
-    fread(game, sizeof(gameInfo), 1, saveFile);
+    fread(game, sizeof(gameInfo), 1, loadFile);
 
-    fclose(saveFile);
-}
+    copyBoard(game, board, 1);
 
-char** loadBoard(gameInfo *game)
-{
-    int size = game->size;
-
-    FILE *file = fopen(game->fileName, "rb");
-    if (file == NULL) {
-        perror("Error opening file for reading");
-        return NULL;
-    }
-
-    char **board = malloc(size * sizeof(char *));
-
-    for (int i = 0; i < size; i++) {
-        board[i] = malloc(size * sizeof(char));
-    }
-
-    for (int i = 0; i < size; i++) {
-        fread(board[i], sizeof(char), size, file);
-    }
-
-    fclose(file);
-
-    return board;
+    fclose(loadFile);
 }
 
 int isFileEmpty(gameInfo *game)
 {
-    FILE *file = game->file;
+    FILE *file = fopen(game->fileName, "rb");
+
+    if (file == NULL) {
+        printf("There is no saved file...\n");
+        return -1;
+    }
 
     fseek(file, 0, SEEK_END);
-    int size = ftell(file);
+    long size = ftell(file);
 
-    if (size == 0)
+    fclose(file);
+
+    if (size <= 0)
     {
         return 1;
     }
-
+        
     return 0;
 }
 
-int delOldData(FILE *fileName)
-{
-    ftruncate(fileno(fileName), 0) != 0;
-}

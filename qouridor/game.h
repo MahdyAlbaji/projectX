@@ -12,12 +12,7 @@
 #include <conio.h>
 #include <windows.h>
 
-#define MAX_LEN_NAME 100
-
-extern char **board;
-extern char **loadedBoard;
-extern int player1Blocked;
-extern int player2Blocked;
+#define MAX 100
 
 typedef enum
 {
@@ -50,16 +45,24 @@ typedef struct
     int size;
     char player1Sign;
     char player2Sign;
-    char player1Name[MAX_LEN_NAME];
-    char player2Name[MAX_LEN_NAME];
+    char player1Name[MAX];
+    char player2Name[MAX];
     int position1[2];
     int position2[2];
     int countWall1;
     int countWall2;
     int typeGame;
-    FILE *file;
-    char fileName[MAX_LEN_NAME];
+    char fileName[MAX];
+    char bg[100][100];
 } gameInfo;
+
+extern char **board;
+
+extern char **loadedBoard;
+
+extern int player1Blocked;
+
+extern int player2Blocked;
 
 // General function of the game
 
@@ -98,8 +101,6 @@ void usingReward(gameInfo *game, int player);
 void save(gameInfo *game);
 
 void load(gameInfo *game);
-
-char** loadBoard(gameInfo *game);
 
 int isFileEmpty(gameInfo *game);
 

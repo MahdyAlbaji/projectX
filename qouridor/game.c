@@ -334,8 +334,15 @@ void playGameHuman(gameInfo *game, int player)
     }
     else if (moveWall == 2)
     {
-        if (player == 1) game->countWall1--;
-        else game->countWall2--;
+        if (player == 1)
+        {
+            if (game->countWall1 > 0) game->countWall1--;
+        }
+        else
+        {
+            if (game->countWall2 > 0) game->countWall2--;
+        }
+        
         getWall(game, x, y, verHol);
     }
 }
