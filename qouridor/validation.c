@@ -15,19 +15,19 @@ int isValidMove(gameInfo *game, int direction, int player)
     {
         int x = game->position1[0];
         int y = game->position1[1];
-        if (direction == 1 && x - 2 < size && x - 2 >= 0 && board[x - 2][y] != sign2 && board[x - 1][y] != '=' && direction >= 1 && direction <= 4) return 1;
-        else if (direction == 2 && y + 2 < size && y + 2 >= 0 && board[x][y + 2] != sign2 && board[x][y + 1] != '|' && direction >= 1 && direction <= 4) return 1;
-        else if (direction == 3 && x + 2 < size && x + 2 >= 0 && board[x + 2][y] != sign2 && board[x + 1][y] != '=' && direction >= 1 && direction <= 4) return 1;
-        else if (direction == 4 && y - 2 < size && y - 2 >=0 && board[x][y - 2] != sign2 && board[x][y - 1] != '|' && direction >= 1 && direction <= 4) return 1;
+        if (direction == 1 && x - 2 < size && x - 2 >= 0 && board[x - 1][y] != '=' && direction >= 1 && direction <= 4) return 1;
+        else if (direction == 2 && y + 2 < size && y + 2 >= 0 && board[x][y + 1] != '|' && direction >= 1 && direction <= 4) return 1;
+        else if (direction == 3 && x + 2 < size && x + 2 >= 0 && board[x + 1][y] != '=' && direction >= 1 && direction <= 4) return 1;
+        else if (direction == 4 && y - 2 < size && y - 2 >=0 && board[x][y - 1] != '|' && direction >= 1 && direction <= 4) return 1;
     }
     else
     {
         int x = game->position2[0];
         int y = game->position2[1];
-        if (direction == 1 && x - 2 < size && x - 2 >= 0 && board[x - 2][y] != sign1 && board[x - 1][y] != '=' && direction >= 1 && direction <= 4) return 1;
-        else if (direction == 2 && y + 2 < size && y + 2 >= 0 && board[x][y + 2] != sign1 && board[x][y + 1] != '|' && direction >= 1 && direction <= 4) return 1;
-        else if (direction == 3 && x + 2 < size && x + 2 >= 0 && board[x + 2][y] != sign1 && board[x + 1][y] != '=' && direction >= 1 && direction <= 4) return 1;
-        else if (direction == 4 && y - 2 < size && y - 2 >=0 && board[x][y - 2] != sign1 && board[x][y - 1] != '|' && direction >= 1 && direction <= 4) return 1;
+        if (direction == 1 && x - 2 < size && x - 2 >= 0 && board[x - 1][y] != '=' && direction >= 1 && direction <= 4) return 1;
+        else if (direction == 2 && y + 2 < size && y + 2 >= 0 && board[x][y + 1] != '|' && direction >= 1 && direction <= 4) return 1;
+        else if (direction == 3 && x + 2 < size && x + 2 >= 0 && board[x + 1][y] != '=' && direction >= 1 && direction <= 4) return 1;
+        else if (direction == 4 && y - 2 < size && y - 2 >=0 && board[x][y - 1] != '|' && direction >= 1 && direction <= 4) return 1;
     }
 
     return 0;

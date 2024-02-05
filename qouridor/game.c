@@ -23,6 +23,7 @@ int getMove(gameInfo *game, int direction, int player) // 1 --> UP | 2 --> RIGHT
                 changePosition(game, player, ' ');
                 game->position1[0] -= 4;
                 changePosition(game, player, sign1);
+
                 return 1;
             }
             else if (x - 4 < 0)
@@ -30,14 +31,24 @@ int getMove(gameInfo *game, int direction, int player) // 1 --> UP | 2 --> RIGHT
                 changePosition(game, player, ' ');
                 game->position1[0] = 0;
                 changePosition(game, player, sign1);
+
                 return 1;
             }
             else
             {
-                changePosition(game, player, ' ');
-                game->position1[0] -= 2;
-                changePosition(game, player, sign1);
-                return 1;
+                if (x == game->position2[0] && y == game->position2[1])
+                {
+                    game->position1[0] -= 2;
+                    changePosition(game, player, sign1);
+                }
+                else
+                {
+                    changePosition(game, player, ' ');
+                    game->position1[0] -= 2;
+                    changePosition(game, player, sign1);
+
+                    return 1;
+                }
             }
         }
         else if (direction == 2)
@@ -47,13 +58,23 @@ int getMove(gameInfo *game, int direction, int player) // 1 --> UP | 2 --> RIGHT
                 changePosition(game, player, ' ');
                 game->position1[1] += 4;
                 changePosition(game, player, sign1);
+
                 return 1;
             }
             else if (isValidMove(game, direction, player))
             {
-                changePosition(game, player, ' ');
-                game->position1[1] += 2;
-                changePosition(game, player, sign1);
+                if (x == game->position2[0] && y == game->position2[1])
+                {
+                    game->position1[1] += 2;
+                    changePosition(game, player, sign1);
+                }
+                else
+                {
+                    changePosition(game, player, ' ');
+                    game->position1[1] += 2;
+                    changePosition(game, player, sign1);
+                }
+
                 return 1;
             }
         }
@@ -64,13 +85,23 @@ int getMove(gameInfo *game, int direction, int player) // 1 --> UP | 2 --> RIGHT
                 changePosition(game, player, ' ');
                 game->position1[0] += 4;
                 changePosition(game, player, sign1);
+
                 return 1;
             }
-            else
+            else if (isValidMove(game, direction, player))
             {
-                changePosition(game, player, ' ');
-                game->position1[0] += 2;
-                changePosition(game, player, sign1);
+                if (x == game->position2[0] && y == game->position2[1])
+                {
+                    game->position1[0] += 2;
+                    changePosition(game, player, sign1);
+                }
+                else
+                {
+                    changePosition(game, player, ' ');
+                    game->position1[0] += 2;
+                    changePosition(game, player, sign1);
+                }
+
                 return 1;
             }
         }
@@ -81,13 +112,23 @@ int getMove(gameInfo *game, int direction, int player) // 1 --> UP | 2 --> RIGHT
                 changePosition(game, player, ' ');
                 game->position1[1] -= 4;
                 changePosition(game, player, sign1);
+
                 return 1;
             }
             else if (isValidMove(game, direction, player))
             {
-                changePosition(game, player, ' ');
-                game->position1[1] -= 2;
-                changePosition(game, player, sign1);
+                if (x == game->position2[0] && y == game->position2[1])
+                {
+                    game->position1[1] -= 2;
+                    changePosition(game, player, sign1);
+                }
+                else
+                {
+                    changePosition(game, player, ' ');
+                    game->position1[1] -= 2;
+                    changePosition(game, player, sign1);
+                }
+
                 return 1;
             }
         }
@@ -104,13 +145,23 @@ int getMove(gameInfo *game, int direction, int player) // 1 --> UP | 2 --> RIGHT
                 changePosition(game, player, ' ');
                 game->position2[0] -= 4;
                 changePosition(game, player, sign2);
+
                 return 1;
             }
             else if (isValidMove(game, direction, player))
             {
-                changePosition(game, player, ' ');
-                game->position2[0] -= 2;
-                changePosition(game, player, sign2);
+                if (x == game->position1[0] && y == game->position1[1])
+                {
+                    game->position2[0] -= 2;
+                    changePosition(game, player, sign2);
+                }
+                else
+                {
+                    changePosition(game, player, ' ');
+                    game->position2[0] -= 2;
+                    changePosition(game, player, sign2);
+                }
+
                 return 1;
             }
         }
@@ -121,13 +172,23 @@ int getMove(gameInfo *game, int direction, int player) // 1 --> UP | 2 --> RIGHT
                 changePosition(game, player, ' ');
                 game->position2[1] += 4;
                 changePosition(game, player, sign2);
+
                 return 1;
             }
             else if (isValidMove(game, direction, player))
             {
-                changePosition(game, player, ' ');
-                game->position2[1] += 2;
-                changePosition(game, player, sign2);
+                if (x == game->position1[0] && y == game->position1[1])
+                {
+                    game->position2[1] += 2;
+                    changePosition(game, player, sign2);
+                }
+                else
+                {
+                    changePosition(game, player, ' ');
+                    game->position2[1] += 2;
+                    changePosition(game, player, sign2);
+                }
+                
                 return 1;
             }
         }
@@ -138,6 +199,7 @@ int getMove(gameInfo *game, int direction, int player) // 1 --> UP | 2 --> RIGHT
                 changePosition(game, player, ' ');
                 game->position2[0] += 4;
                 changePosition(game, player, sign2);
+
                 return 1;
             }
             else if (x + 4 >= size)
@@ -145,13 +207,23 @@ int getMove(gameInfo *game, int direction, int player) // 1 --> UP | 2 --> RIGHT
                 changePosition(game, player, ' ');
                 game->position2[0] = size - 1;
                 changePosition(game, player, sign2);
+
                 return 1;
             }
             else
             {
-                changePosition(game, player, ' ');
-                game->position2[0] += 2;
-                changePosition(game, player, sign2);
+                if (x == game->position1[0] && y == game->position1[1])
+                {
+                    game->position2[0] += 2;
+                    changePosition(game, player, sign2);
+                }
+                else
+                {
+                    changePosition(game, player, ' ');
+                    game->position2[0] += 2;
+                    changePosition(game, player, sign2);
+                }
+                
                 return 1;
             }
         }
@@ -166,9 +238,18 @@ int getMove(gameInfo *game, int direction, int player) // 1 --> UP | 2 --> RIGHT
             }
             else if (isValidMove(game, direction, player))
             {
-                changePosition(game, player, ' ');
-                game->position2[1] -= 2;
-                changePosition(game, player, sign2);
+                if (x == game->position1[0] && y == game->position1[1])
+                {
+                    game->position2[1] -= 2;
+                    changePosition(game, player, sign2);
+                }
+                else
+                {
+                    changePosition(game, player, ' ');
+                    game->position2[1] -= 2;
+                    changePosition(game, player, sign2);
+                }
+                
                 return 1;
             }
         }
@@ -195,7 +276,7 @@ void playGameHuman(gameInfo *game, int player)
 {
     int moveWall;
     int direction;
-    char ver_hor;
+    char verHol;
     int x, y;
 
     do
@@ -233,7 +314,7 @@ void playGameHuman(gameInfo *game, int player)
             do
             {
                 printf("Vertical (v) / Horizontal (h): ");
-                scanf("%c", &ver_hor);
+                scanf("%c", &verHol);
                 getchar();
 
                 printf("Enter (x,y): ");
@@ -242,7 +323,7 @@ void playGameHuman(gameInfo *game, int player)
 
                 x = (2 * x) - 1;
                 y = (2 * y) - 1;
-            } while (!isValidWall(game, x, y, ver_hor) || !pseudoDFS(game, x, y, ver_hor, player));
+            } while (!isValidWall(game, x, y, verHol) || !pseudoDFS(game, x, y, verHol, player));
         }
     } while (moveWall != 1 && moveWall != 2);
     
@@ -255,6 +336,6 @@ void playGameHuman(gameInfo *game, int player)
     {
         if (player == 1) game->countWall1--;
         else game->countWall2--;
-        getWall(game, x, y, ver_hor);
+        getWall(game, x, y, verHol);
     }
 }

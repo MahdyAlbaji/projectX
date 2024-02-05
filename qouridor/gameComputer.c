@@ -6,9 +6,7 @@ extern char **board;
 
 int generateRandomNumber(int low, int high)
 {
-    int x = (rand() % (high - low + 1)) + low;
-    
-    return x;
+    return (rand() % (high - low + 1)) + low;
 }
 
 void playGameComputer(gameInfo *game, int player)
@@ -40,13 +38,19 @@ void playGameComputer(gameInfo *game, int player)
         else model = 'v';
 
         int x = game->position1[0] - 1;
-        int y = game->position1[1];
+        int y = game->position1[1] - 1;
 
         int size = game->size;
         size /= 2;
 
         if (isValidWall(game, x, y, model))
         {
+            getWall(game, x, y, model);
+            return;
+        }
+        else if (isValidWall(game, x, y + 2, model))
+        {
+            y += 2;
             getWall(game, x, y, model);
             return;
         }

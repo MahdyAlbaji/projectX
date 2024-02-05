@@ -12,9 +12,10 @@
 #include <conio.h>
 #include <windows.h>
 
-#define MAX_LEN_NAME 30
+#define MAX_LEN_NAME 100
 
 extern char **board;
+extern char **loadedBoard;
 extern int player1Blocked;
 extern int player2Blocked;
 
@@ -55,24 +56,14 @@ typedef struct
     int position2[2];
     int countWall1;
     int countWall2;
+    int typeGame;
+    FILE *file;
+    char fileName[MAX_LEN_NAME];
 } gameInfo;
 
-typedef struct
-{
-    int reward11;
-    int reward12;
-    int reward13;
-    int reward14;
-    int reward15;
+// General function of the game
 
-    int reward21;
-    int reward22;
-    int reward23;
-    int reward24;
-    int reward25;
-} rewardStatus;
-
-void initializeGame(gameInfo *game, rewardStatus *reward, int userSize);
+void initializeGame(gameInfo *game, int userSize);
 
 void printBoard(gameInfo *game);
 
@@ -100,6 +91,18 @@ void playGameComputer(gameInfo *game, int player);
 
 // Rewards
 
-void usingReward(gameInfo *game, rewardStatus *reward, int player);
+void usingReward(gameInfo *game, int player);
+
+// Save / Load
+
+void save(gameInfo *game);
+
+void load(gameInfo *game);
+
+char** loadBoard(gameInfo *game);
+
+int isFileEmpty(gameInfo *game);
+
+int delOldData(FILE *fileName);
 
 #endif

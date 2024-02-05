@@ -3,11 +3,13 @@
 #include "game.h"
 
 extern char **board;
+
 extern int player1Blocked;
+
 extern int player2Blocked;
 
 
-void initializeGame(gameInfo *game, rewardStatus *reward, int userSize)
+void initializeGame(gameInfo *game, int userSize)
 {
     int realSize = game->size;
 
@@ -33,9 +35,6 @@ void initializeGame(gameInfo *game, rewardStatus *reward, int userSize)
 
     player1Blocked = 0;
     player2Blocked = 0;
-
-    reward->reward11 = 0, reward->reward12 = 0, reward->reward13 = 0, reward->reward14 = 0, reward->reward15 = 0;
-    reward->reward21 = 0, reward->reward22 = 0, reward->reward23 = 0, reward->reward24 = 0, reward->reward25 = 0;
 }
 
 void printBoard(gameInfo *game)
@@ -124,7 +123,7 @@ int checkWinner(gameInfo *game)
     if (game->position1[0] == 0)
     {
         setTextColor(PURPLE);
-        printf("%s is the winner!\n", game->player1Name);
+        printf("Congratulations to %s who is the winner!🥳🥳🥳\n", game->player1Name);
         setTextColor(WHITE);
 
         for (int i = 0; i < size; i++)
@@ -139,7 +138,7 @@ int checkWinner(gameInfo *game)
     else if (game->position2[0] == game->size - 1)
     {
         setTextColor(GREEN);
-        printf("%s is the winner!\n", game->player2Name);
+        printf("Congratulations to %s who is the winner!🥳🥳🥳\n", game->player2Name);
         setTextColor(WHITE);
 
         for (int i = 0; i < size; i++)
@@ -151,4 +150,90 @@ int checkWinner(gameInfo *game)
         
         exit(0);
     }
+}
+
+void save(gameInfo *game)
+{
+    int size = game->size;
+
+    FILE *saveFile = fopen(game->fileName, "wb");
+
+    if (saveFile == NULL)
+    {
+        perror("Error opening file for writing");
+        return;
+    }
+
+    game->file = saveFile;
+
+    fwrite(game, sizeof(gameInfo), 1, saveFile);
+    
+    for (int i = 0; i < size; i++)
+    {
+        fwrite(board[i], sizeof(char) * size, 1, saveFile);
+    }
+
+    fclose(saveFile);
+}
+
+void load(gameInfo *game)
+{
+    int size = game->size;
+
+    FILE *saveFile = fopen(game->fileName, "rb");
+
+    if (saveFile == NULL)
+    {
+        perror("Error opening file for reading");
+        return;
+    }
+
+    fread(game, sizeof(gameInfo), 1, saveFile);
+
+    fclose(saveFile);
+}
+
+char** loadBoard(gameInfo *game)
+{
+    int size = game->size;
+
+    FILE *file = fopen(game->fileName, "rb");
+    if (file == NULL) {
+        perror("Error opening file for reading");
+        return NULL;
+    }
+
+    char **board = malloc(size * sizeof(char *));
+
+    for (int i = 0; i < size; i++) {
+        board[i] = malloc(size * sizeof(char));
+    }
+
+    for (int i = 0; i < size; i++) {
+        fread(board[i], sizeof(char), size, file);
+    }
+
+    fclose(file);
+
+    return board;
+}
+
+int isFileEmpty(gameInfo *game)
+{
+    FILE *file = game->file;
+
+    fseek(file, 0, SEEK_END);
+    int size = ftell(file);
+
+    if (size == 0)
+    {
+        return 1;
+    }
+
+    return 0;
+}
+
+int delOldData(FILE *fileName)
+{
+    ftruncate(fileno(fileName), 0) != 0;
 }
