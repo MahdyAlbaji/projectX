@@ -14,13 +14,13 @@ int main()
     srand(time(NULL));
 
     setTextColor(LIGHT_RED);
-    printf("❤️Welcome to Qouridor!❤️\n");
+    printf("Welcome to Qouridor!\n");
 
     board = (char**)malloc(MAX * sizeof(char*));
 
     if (board == NULL)
     {
-        printf("We can't allocate this memory for your board...💔\n");
+        printf("We can't allocate this memory for your board...\n");
         return 1;
     }
 
@@ -35,7 +35,7 @@ int main()
 
     if (isFileEmpty(&game) == 0)
     {
-        printf("Hi there 😊\nYou have a not finished game, Do you want to continue(1) or start a new game(2)? ");
+        printf("Hi there :)\nYou have a not finished game, Do you want to continue(1) or start a new game(2)? ");
         scanf("%d", &continueGame);
     }
 
@@ -64,7 +64,7 @@ int main()
             }
         }
 
-        printf("Human (1) 👨 / Computer 🤖 (2): ");
+        printf("Human (1) / Computer (2): ");
         scanf("%d", &playerType);
         getchar();
 
@@ -122,7 +122,7 @@ int main()
         scanf("%d", &classicModern);
         game.typeGame = classicModern;
 
-        printf("Well well well, %s and %s hope to enjoy.😇\n", game.player1Name, game.player2Name);
+        printf("Well well well, %s and %s hope to enjoy :)\n", game.player1Name, game.player2Name);
 
         initializeGame(&game, userSize);
     }

@@ -123,7 +123,7 @@ int checkWinner(gameInfo *game)
     if (game->position1[0] == 0)
     {
         setTextColor(PURPLE);
-        printf("Congratulations to %s who is the winner!🥳🥳🥳\n", game->player1Name);
+        printf("Congratulations to %s who is the winner!\n", game->player1Name);
         setTextColor(WHITE);
 
         remove(game->fileName);
@@ -140,7 +140,7 @@ int checkWinner(gameInfo *game)
     else if (game->position2[0] == game->size - 1)
     {
         setTextColor(GREEN);
-        printf("Congratulations to %s who is the winner!🥳🥳🥳\n", game->player2Name);
+        printf("Congratulations to %s who is the winner!\n", game->player2Name);
         setTextColor(WHITE);
 
         remove(game->fileName);
