@@ -50,8 +50,10 @@ void playGameComputer(gameInfo *game, int player)
         //if (state == 1) model = 'h';
         //else model = 'v';
 
-        int x = game->position1[0] - 1;
-        int y = game->position1[1] - 1;
+        int x1 = game->position1[0] - 1;
+        int y1 = game->position1[1] - 1;
+        int x2 = game->position2[0];
+        int y2 = game->position2[1];
 
         int size = game->size;
         size /= 2;
@@ -84,17 +86,36 @@ void playGameComputer(gameInfo *game, int player)
 			} while (model != 'v' || model == 'h');
             
             //while (!isValidWall(game, x, y, model))
-            if(isValidWall(game,x,y,model))
+            if(isValidWall(game,x1,y1,model))
             {
-                getWall(game, x, y,model);
+                if (!isValidWall(game,x2,y2,model))
+                {
+                    getWall(game, x1, y1,model);
+                    game->count_wall2 --;
+                }
+                else 
+                {
+                    for (int i = 1;i < size / 2; i++)
+                    {
+                        if(game->position1[0] == size - i)
+                        {
+                            getWall(game,size - i, y1, model);
+                            game->count_wall2 --;
+                            break;
+                        }
+                    }
+                    
+                    
+                }
             }
             else
             {
-                x = rand() % size + 1;
-                y = rand() % size + 1;
-                if (isValidWall(game, x, y, model)) 
+                x1 = rand() % size + 1;
+                y1 = rand() % size + 1;
+                if (isValidWall(game, x1, y1, model)) 
                 {
-                    getWall(game, x, y, model);
+                    getWall(game, x1, y1, model);
+                    game->count_wall2 --;
                 }
             }
     }
