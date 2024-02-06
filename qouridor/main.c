@@ -78,9 +78,32 @@ int main()
         scanf("%s", game.player1Name);
         getchar();
 
+        int firstSign;
+        setTextColor(LIGHT_YELLOW);
+        printf("You can choose from these signs:  %c(1) %c(2) %c(3) %c(4) or every sign you want \n",64-58,64-59,64-60,64-61);
         printf("Player1 sign: ");
-        scanf("%c", &game.player1Sign);
-        getchar();
+        scanf("%d",&firstSign);
+        if (firstSign == 1)
+        {
+            game.player1Sign = 64-58;
+        }
+        else if (firstSign == 2)
+        {
+            game.player1Sign = 64-59;
+        }
+        else if (firstSign == 3)
+        {
+            game.player1Sign = 64-60;
+        }
+        else if (firstSign == 4)
+        {
+            game.player1Sign = 64-61;
+        }
+        else 
+        {
+            scanf("%c", &game.player1Sign);
+            getchar();
+        }
 
         setTextColor(YELLOW);
         do
@@ -91,9 +114,32 @@ int main()
                 scanf("%s", game.player2Name);
                 getchar();
 
+                printf("You can choose from these signs:  %c(1) %c(2) %c(3) %c(4) or every sign you want\n",64-58,64-59,64-60,64-61);
                 printf("Player2 sign: ");
+                int firstSign;
+                scanf("%d",&firstSign);
+                if (firstSign == 1)
+                {
+                    game.player2Sign = 64-58;
+                }
+                else if (firstSign == 2)
+                {
+                    game.player2Sign = 64-59;
+                }
+                else if (firstSign == 3)
+                {
+                    game.player2Sign = 64-60;
+                }
+                else if (firstSign == 4)
+                {
+                    game.player2Sign = 64-61;
+                }
+                else 
+                {
                 scanf("%c", &game.player2Sign);
                 getchar();
+                }
+                
             }
             else if (playerType == 2)
             {
